@@ -1,0 +1,41 @@
+--- TC1: System Reset ---
+Reset        | opcode=000 zero=0 | sel=1 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+--- TC2 & TC3: Fetch Phase ---
+0:INST_ADDR  | opcode=010 zero=0 | sel=1 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+1:INST_FETCH | opcode=010 zero=0 | sel=1 rd=1 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+2:INST_LOAD  | opcode=010 zero=0 | sel=1 rd=1 ld_ir=1 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+3:IDLE       | opcode=010 zero=0 | sel=1 rd=1 ld_ir=1 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+--- TC4: Execution Phase (ADD) ---
+4:OP_ADDR    | opcode=010 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=1 ld_ac=0 ld_pc=0 wr=0 data_e=0
+5:OP_FETCH   | opcode=010 zero=0 | sel=0 rd=1 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+6:ALU_OP     | opcode=010 zero=0 | sel=0 rd=1 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+7:STORE      | opcode=010 zero=0 | sel=0 rd=1 ld_ir=0 halt=0 inc_pc=0 ld_ac=1 ld_pc=0 wr=0 data_e=0
+--- TC4: Execution Phase (STO) ---
+4:OP_ADDR    | opcode=110 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=1 ld_ac=0 ld_pc=0 wr=0 data_e=0
+5:OP_FETCH   | opcode=110 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+6:ALU_OP     | opcode=110 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=1
+7:STORE      | opcode=110 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=1 data_e=1
+--- TC4: Execution Phase (JMP) ---
+4:OP_ADDR    | opcode=111 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=1 ld_ac=0 ld_pc=0 wr=0 data_e=0
+5:OP_FETCH   | opcode=111 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+6:ALU_OP     | opcode=111 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=1 wr=0 data_e=0
+7:STORE      | opcode=111 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=1 wr=0 data_e=0
+--- TC4: Execution Phase (HLT) ---
+4:OP_ADDR    | opcode=000 zero=0 | sel=0 rd=0 ld_ir=0 halt=1 inc_pc=1 ld_ac=0 ld_pc=0 wr=0 data_e=0
+5:OP_FETCH   | opcode=000 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+6:ALU_OP     | opcode=000 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+7:STORE      | opcode=000 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+--- TC5: Conditional Jump (SKZ) ---
+4:OP_ADDR    | opcode=001 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=1 ld_ac=0 ld_pc=0 wr=0 data_e=0
+5:OP_FETCH   | opcode=001 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+   [zero=0] at ALU_OP:
+6:ALU_OP     | opcode=001 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+7:STORE      | opcode=001 zero=0 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+4:OP_ADDR    | opcode=001 zero=1 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=1 ld_ac=0 ld_pc=0 wr=0 data_e=0
+5:OP_FETCH   | opcode=001 zero=1 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+   [zero=1] at ALU_OP:
+6:ALU_OP     | opcode=001 zero=1 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=1 ld_ac=0 ld_pc=0 wr=0 data_e=0
+7:STORE      | opcode=001 zero=1 | sel=0 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+--- TC6: Sync Signals (Async Reset check) ---
+Reset Async  | opcode=001 zero=1 | sel=1 rd=0 ld_ir=0 halt=0 inc_pc=0 ld_ac=0 ld_pc=0 wr=0 data_e=0
+--- DONE ---

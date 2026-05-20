@@ -1,0 +1,34 @@
+--- CPU INTEGRATION TEST STARTED ---
+time=               25000 | PC= 0 | State=000 | Op=000 | AC=0 | Halt=0
+time=               35000 | PC= 0 | State=001 | Op=000 | AC=0 | Halt=0
+time=               45000 | PC= 0 | State=010 | Op=000 | AC=0 | Halt=0
+time=               55000 | PC= 0 | State=011 | Op=101 | AC=0 | Halt=0
+time=               65000 | PC= 0 | State=100 | Op=101 | AC=0 | Halt=0
+time=               75000 | PC= 1 | State=101 | Op=101 | AC=0 | Halt=0
+time=               85000 | PC= 1 | State=110 | Op=101 | AC=0 | Halt=0
+time=               95000 | PC= 1 | State=111 | Op=101 | AC=0 | Halt=0
+time=              105000 | PC= 1 | State=000 | Op=101 | AC=5 | Halt=0
+time=              115000 | PC= 1 | State=001 | Op=101 | AC=5 | Halt=0
+time=              125000 | PC= 1 | State=010 | Op=101 | AC=5 | Halt=0
+time=              135000 | PC= 1 | State=011 | Op=010 | AC=5 | Halt=0
+time=              145000 | PC= 1 | State=100 | Op=010 | AC=5 | Halt=0
+time=              155000 | PC= 2 | State=101 | Op=010 | AC=5 | Halt=0
+time=              165000 | PC= 2 | State=110 | Op=010 | AC=5 | Halt=0
+time=              175000 | PC= 2 | State=111 | Op=010 | AC=5 | Halt=0
+time=              185000 | PC= 2 | State=000 | Op=010 | AC=8 | Halt=0
+time=              195000 | PC= 2 | State=001 | Op=010 | AC=8 | Halt=0
+time=              205000 | PC= 2 | State=010 | Op=010 | AC=8 | Halt=0
+time=              215000 | PC= 2 | State=011 | Op=110 | AC=8 | Halt=0
+time=              225000 | PC= 2 | State=100 | Op=110 | AC=8 | Halt=0
+time=              235000 | PC= 3 | State=101 | Op=110 | AC=8 | Halt=0
+time=              245000 | PC= 3 | State=110 | Op=110 | AC=8 | Halt=0
+time=              255000 | PC= 3 | State=111 | Op=110 | AC=8 | Halt=0
+time=              265000 | PC= 3 | State=000 | Op=110 | AC=8 | Halt=0
+time=              275000 | PC= 3 | State=001 | Op=110 | AC=8 | Halt=0
+time=              285000 | PC= 3 | State=010 | Op=110 | AC=8 | Halt=0
+time=              295000 | PC= 3 | State=011 | Op=000 | AC=8 | Halt=0
+time=              305000 | PC= 3 | State=100 | Op=000 | AC=8 | Halt=1
+time=              315000 | PC= 4 | State=100 | Op=000 | AC=8 | Halt=0
+--- FINAL RESULT CHECK ---
+Mem[22] (Expected 8): 8
+--- TEST STATUS: PASS ---

@@ -1,0 +1,13 @@
+--- TC1: Write Data ---
+TC1.1 | rd=0 | wr=1 | addr=10 | data=0xa5a5a5a5
+TC1.2 | rd=0 | wr=1 | addr=20 | data=0x12345678
+--- TC2: Read Data ---
+TC2.1 | rd=1 | wr=0 | addr=10 | data=0xa5a5a5a5
+TC2.2 | rd=1 | wr=0 | addr=20 | data=0x12345678
+--- TC3: High Impedance Check ---
+TC3   | rd=0 | wr=0 | addr=10 | data=0xzzzzzzzz
+--- TC4: Conflict Prevention ---
+TC4   | rd=1 | wr=1 | addr=10 | data=0xzzzzzzzz
+--- TC5: Data Persistence ---
+TC5   | rd=1 | wr=0 | addr=10 | data=0xa5a5a5a5
+--- DONE ---

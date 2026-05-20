@@ -1,0 +1,25 @@
+--- TC1: Zero Status Flag ---
+TC1.1 | opcode=000 | inA=0 | inB=0 | zero=1 | alu_out=0
+TC1.2 | opcode=000 | inA=50 | inB=0 | zero=0 | alu_out=50
+--- TC2: Arithmetic & Logic ---
+ADD   | opcode=010 | inA=100 | inB=25 | zero=0 | alu_out=125
+AND   | opcode=011 | inA=100 | inB=25 | zero=0 | alu_out=0
+XOR   | opcode=100 | inA=100 | inB=25 | zero=0 | alu_out=125
+LDA   | opcode=101 | inA=100 | inB=25 | zero=0 | alu_out=25
+--- TC3: Transfer Operations ---
+HLT   | opcode=000 | inA=999 | inB=555 | zero=0 | alu_out=999
+SKZ   | opcode=001 | inA=999 | inB=555 | zero=0 | alu_out=999
+STO   | opcode=110 | inA=999 | inB=555 | zero=0 | alu_out=999
+JMP   | opcode=111 | inA=999 | inB=555 | zero=0 | alu_out=999
+--- TC4: Combinational Property ---
+TC4   | opcode=010 | inA=10 | inB=20 | zero=0 | alu_out=30
+--- TC5: Boundary Cases ---
+TC5.1 | opcode=010 | inA=4294967295 | inB=1 | zero=0 | alu_out=0
+TC5.2 | opcode=010 | inA=2147483647 | inB=2147483647 | zero=0 | alu_out=4294967294
+--- TC6: Complex Logic ---
+AND_C | opcode=011 | inA=2863311530 | inB=1431655765 | zero=0 | alu_out=0
+XOR_C | opcode=100 | inA=2863311530 | inB=1431655765 | zero=0 | alu_out=4294967295
+--- TC7: Zero Flag Independence ---
+TC7.1 | zero=1 | alu_out=100
+TC7.2 | zero=0 | alu_out=100
+--- DONE ---

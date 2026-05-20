@@ -1,0 +1,91 @@
+--- CPU INTEGRATION TEST STARTED ---
+time=               25000 | PC= 0 | State=000 | Op=000 | AC=0 | Halt=0
+time=               35000 | PC= 0 | State=001 | Op=000 | AC=0 | Halt=0
+time=               45000 | PC= 0 | State=010 | Op=000 | AC=0 | Halt=0
+time=               55000 | PC= 0 | State=011 | Op=101 | AC=0 | Halt=0
+time=               65000 | PC= 0 | State=100 | Op=101 | AC=0 | Halt=0
+time=               75000 | PC= 1 | State=101 | Op=101 | AC=0 | Halt=0
+time=               85000 | PC= 1 | State=110 | Op=101 | AC=0 | Halt=0
+time=               95000 | PC= 1 | State=111 | Op=101 | AC=0 | Halt=0
+time=              105000 | PC= 1 | State=000 | Op=101 | AC=5 | Halt=0
+time=              115000 | PC= 1 | State=001 | Op=101 | AC=5 | Halt=0
+time=              125000 | PC= 1 | State=010 | Op=101 | AC=5 | Halt=0
+time=              135000 | PC= 1 | State=011 | Op=010 | AC=5 | Halt=0
+time=              145000 | PC= 1 | State=100 | Op=010 | AC=5 | Halt=0
+time=              155000 | PC= 2 | State=101 | Op=010 | AC=5 | Halt=0
+time=              165000 | PC= 2 | State=110 | Op=010 | AC=5 | Halt=0
+time=              175000 | PC= 2 | State=111 | Op=010 | AC=5 | Halt=0
+time=              185000 | PC= 2 | State=000 | Op=010 | AC=8 | Halt=0
+time=              195000 | PC= 2 | State=001 | Op=010 | AC=8 | Halt=0
+time=              205000 | PC= 2 | State=010 | Op=010 | AC=8 | Halt=0
+time=              215000 | PC= 2 | State=011 | Op=110 | AC=8 | Halt=0
+time=              225000 | PC= 2 | State=100 | Op=110 | AC=8 | Halt=0
+time=              235000 | PC= 3 | State=101 | Op=110 | AC=8 | Halt=0
+time=              245000 | PC= 3 | State=110 | Op=110 | AC=8 | Halt=0
+time=              255000 | PC= 3 | State=111 | Op=110 | AC=8 | Halt=0
+time=              265000 | PC= 3 | State=000 | Op=110 | AC=8 | Halt=0
+time=              275000 | PC= 3 | State=001 | Op=110 | AC=8 | Halt=0
+time=              285000 | PC= 3 | State=010 | Op=110 | AC=8 | Halt=0
+time=              295000 | PC= 3 | State=011 | Op=001 | AC=8 | Halt=0
+time=              305000 | PC= 3 | State=100 | Op=001 | AC=8 | Halt=0
+time=              315000 | PC= 4 | State=101 | Op=001 | AC=8 | Halt=0
+time=              325000 | PC= 4 | State=110 | Op=001 | AC=8 | Halt=0
+time=              335000 | PC= 4 | State=111 | Op=001 | AC=8 | Halt=0
+time=              345000 | PC= 4 | State=000 | Op=001 | AC=8 | Halt=0
+time=              355000 | PC= 4 | State=001 | Op=001 | AC=8 | Halt=0
+time=              365000 | PC= 4 | State=010 | Op=001 | AC=8 | Halt=0
+time=              375000 | PC= 4 | State=011 | Op=111 | AC=8 | Halt=0
+time=              385000 | PC= 4 | State=100 | Op=111 | AC=8 | Halt=0
+time=              395000 | PC= 5 | State=101 | Op=111 | AC=8 | Halt=0
+time=              405000 | PC= 5 | State=110 | Op=111 | AC=8 | Halt=0
+time=              415000 | PC= 6 | State=111 | Op=111 | AC=8 | Halt=0
+time=              425000 | PC= 6 | State=000 | Op=111 | AC=8 | Halt=0
+time=              435000 | PC= 6 | State=001 | Op=111 | AC=8 | Halt=0
+time=              445000 | PC= 6 | State=010 | Op=111 | AC=8 | Halt=0
+time=              455000 | PC= 6 | State=011 | Op=100 | AC=8 | Halt=0
+time=              465000 | PC= 6 | State=100 | Op=100 | AC=8 | Halt=0
+time=              475000 | PC= 7 | State=101 | Op=100 | AC=8 | Halt=0
+time=              485000 | PC= 7 | State=110 | Op=100 | AC=8 | Halt=0
+time=              495000 | PC= 7 | State=111 | Op=100 | AC=8 | Halt=0
+time=              505000 | PC= 7 | State=000 | Op=100 | AC=13 | Halt=0
+time=              515000 | PC= 7 | State=001 | Op=100 | AC=13 | Halt=0
+time=              525000 | PC= 7 | State=010 | Op=100 | AC=13 | Halt=0
+time=              535000 | PC= 7 | State=011 | Op=011 | AC=13 | Halt=0
+time=              545000 | PC= 7 | State=100 | Op=011 | AC=13 | Halt=0
+time=              555000 | PC= 8 | State=101 | Op=011 | AC=13 | Halt=0
+time=              565000 | PC= 8 | State=110 | Op=011 | AC=13 | Halt=0
+time=              575000 | PC= 8 | State=111 | Op=011 | AC=13 | Halt=0
+time=              585000 | PC= 8 | State=000 | Op=011 | AC=1 | Halt=0
+time=              595000 | PC= 8 | State=001 | Op=011 | AC=1 | Halt=0
+time=              605000 | PC= 8 | State=010 | Op=011 | AC=1 | Halt=0
+time=              615000 | PC= 8 | State=011 | Op=110 | AC=1 | Halt=0
+time=              625000 | PC= 8 | State=100 | Op=110 | AC=1 | Halt=0
+time=              635000 | PC= 9 | State=101 | Op=110 | AC=1 | Halt=0
+time=              645000 | PC= 9 | State=110 | Op=110 | AC=1 | Halt=0
+time=              655000 | PC= 9 | State=111 | Op=110 | AC=1 | Halt=0
+time=              665000 | PC= 9 | State=000 | Op=110 | AC=1 | Halt=0
+time=              675000 | PC= 9 | State=001 | Op=110 | AC=1 | Halt=0
+time=              685000 | PC= 9 | State=010 | Op=110 | AC=1 | Halt=0
+time=              695000 | PC= 9 | State=011 | Op=101 | AC=1 | Halt=0
+time=              705000 | PC= 9 | State=100 | Op=101 | AC=1 | Halt=0
+time=              715000 | PC=10 | State=101 | Op=101 | AC=1 | Halt=0
+time=              725000 | PC=10 | State=110 | Op=101 | AC=1 | Halt=0
+time=              735000 | PC=10 | State=111 | Op=101 | AC=1 | Halt=0
+time=              745000 | PC=10 | State=000 | Op=101 | AC=0 | Halt=0
+time=              755000 | PC=10 | State=001 | Op=101 | AC=0 | Halt=0
+time=              765000 | PC=10 | State=010 | Op=101 | AC=0 | Halt=0
+time=              775000 | PC=10 | State=011 | Op=001 | AC=0 | Halt=0
+time=              785000 | PC=10 | State=100 | Op=001 | AC=0 | Halt=0
+time=              795000 | PC=11 | State=101 | Op=001 | AC=0 | Halt=0
+time=              805000 | PC=11 | State=110 | Op=001 | AC=0 | Halt=0
+time=              815000 | PC=12 | State=111 | Op=001 | AC=0 | Halt=0
+time=              825000 | PC=12 | State=000 | Op=001 | AC=0 | Halt=0
+time=              835000 | PC=12 | State=001 | Op=001 | AC=0 | Halt=0
+time=              845000 | PC=12 | State=010 | Op=001 | AC=0 | Halt=0
+time=              855000 | PC=12 | State=011 | Op=000 | AC=0 | Halt=0
+time=              865000 | PC=12 | State=100 | Op=000 | AC=0 | Halt=1
+time=              875000 | PC=13 | State=100 | Op=000 | AC=0 | Halt=0
+--- FINAL RESULT CHECK ---
+Mem[22] (Expected 8): 8
+Mem[23] (Expected 1): 1
+--- TEST STATUS: PASS ---

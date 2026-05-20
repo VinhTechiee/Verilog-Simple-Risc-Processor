@@ -1,0 +1,20 @@
+--- TC1: System Reset ---
+TC1.1 | rst=1 | ld_ir=0 | data_in=0x00000000 | opcode=000 | operand=00000
+--- TC2: Load Instruction ---
+TC2.1 | rst=0 | ld_ir=1 | data_in=0x000000b5 | opcode=101 | operand=10101
+TC2.2 | rst=0 | ld_ir=1 | data_in=0x00000043 | opcode=010 | operand=00011
+--- TC3: Hold Value ---
+TC3.1 | rst=0 | ld_ir=0 | data_in=0xffffffff | opcode=010 | operand=00011
+TC3.2 | rst=0 | ld_ir=0 | data_in=0xffffffff | opcode=010 | operand=00011
+--- TC4: Extract Opcode and Operand ---
+TC4.1 | rst=0 | ld_ir=1 | data_in=0xdeadbeff | opcode=111 | operand=11111
+TC4.2 | rst=0 | ld_ir=1 | data_in=0x12345600 | opcode=000 | operand=00000
+--- TC5: Reset Priority ---
+TC5.1 | rst=1 | ld_ir=1 | data_in=0xffffffff | opcode=000 | operand=00000
+TC5.2 | rst=0 | ld_ir=1 | data_in=0xffffffff | opcode=111 | operand=11111
+--- TC6: Bus Noise Immunity ---
+TC6.1 | rst=0 | ld_ir=0 | data_in=0x12345678 | opcode=111 | operand=11111
+--- TC7: High-bit Masking ---
+TC7.1 | rst=0 | ld_ir=1 | data_in=0xabcdef4a | opcode=010 | operand=01010
+TC7.2 | rst=0 | ld_ir=1 | data_in=0x000000bf | opcode=101 | operand=11111
+--- DONE ---

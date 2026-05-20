@@ -1,0 +1,48 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# LaTeX generated files
+*.aux
+*.bbl
+*.blg
+*.fls
+*.log
+*.out
+*.toc
+*.fdb_latexmk
+*.synctex.gz
+*.pdf
+# (Optional) remove *.pdf if you want to commit your final PDFs
+
+# Vivado / Xilinx generated files
+*.jou
+*.str
+*.wdb
+*.hw
+*.sim/
+*.ip_user_files/
+*.runs/
+*.cache/
+.Xil/
+
+# Icarus Verilog / GTKWave generated files
+*.vvp
+*.vcd
+*.gtkw
+
+# Test outputs
+testbench/output.txt
+output.txt
+
+# Editor / IDE settings
+.vscode/
+.idea/
+*.swp
+*.bak
+*~

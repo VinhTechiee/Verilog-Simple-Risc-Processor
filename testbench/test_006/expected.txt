@@ -1,0 +1,24 @@
+--- TC1: System Reset ---
+TC1   | rst=1 | ld_ac=0 | data_in=0 | ac_out=0
+--- TC2: Load Data (ALU Result) ---
+TC2.1 | rst=0 | ld_ac=1 | data_in=150 | ac_out=150
+TC2.2 | rst=0 | ld_ac=1 | data_in=300 | ac_out=300
+--- TC3: Data Stability (Idle/Fetch) ---
+TC3.1 | rst=0 | ld_ac=0 | data_in=999 | ac_out=300
+TC3.2 | rst=0 | ld_ac=0 | data_in=999 | ac_out=300
+--- TC4: Feedback to ALU ---
+TC4   | rst=0 | ld_ac=0 | data_in=999 | ac_out=300
+--- TC5: Interaction with Data Bus ---
+TC5.1 | rst=0 | ld_ac=1 | data_in=500 | ac_out=500
+TC5.2 | rst=0 | ld_ac=0 | data_in=500 | ac_out=500
+--- TC6: Reset Priority Check ---
+TC6.1 | rst=1 | ld_ac=1 | data_in=4444 | ac_out=0
+TC6.2 | rst=0 | ld_ac=1 | data_in=4444 | ac_out=4444
+--- TC7: Boundary Values ---
+TC7.1 | rst=0 | ld_ac=1 | data_in=4294967295 | ac_out=4294967295
+TC7.2 | rst=0 | ld_ac=1 | data_in=0 | ac_out=0
+--- TC8: Rapid Toggling ---
+TC8.1 | rst=0 | ld_ac=1 | data_in=2863311530 | ac_out=2863311530
+TC8.2 | rst=0 | ld_ac=1 | data_in=1431655765 | ac_out=1431655765
+TC8.3 | rst=0 | ld_ac=0 | data_in=305419896 | ac_out=1431655765
+--- DONE ---
