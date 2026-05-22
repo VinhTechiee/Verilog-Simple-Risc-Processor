@@ -1,0 +1,67 @@
+\documentclass[twoside, english]{hcmut-report}
+
+%%% Optional packages
+% \usepackage{}
+
+%%% Configurations
+\setstretch{1.2}
+\setlength{\arraycolsep}{15pt}
+\AtBeginDocument{\counterwithin{lstlisting}{section}}
+
+%%% Custom commands
+\newcommand{\inputaltcode}[3][]{
+  \texttt{\detokenize{#3}}:\nopagebreak%
+  \begin{mdframed}[backgroundcolor=gray!10]%
+      \inputminted[#1]{#2}{codes/#3}%
+  \end{mdframed}%
+}
+\newcommand{\inputfigure}[3][0.95]{
+\begin{figure}[H]%
+  \begin{center}%
+    \includegraphics[width=#1\textwidth]{figures/#2}%
+  \end{center}%
+  \caption{#3}%
+\end{figure}%
+}
+
+%%% Rename sections
+% \AtBeginDocument{\renewcommand*{\contentsname}{Contents}}
+% \AtBeginDocument{\renewcommand*{\refname}{References}}
+% \AtBeginDocument{\renewcommand*{\bibname}{References}}
+
+%%% MAIN DOCUMENT
+\begin{document}
+\coverpage
+
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+
+\tableofcontents
+% \listoffigures
+% \listoftables
+% \lstlistoflistings{}
+\clearpage
+
+\raggedbottom
+
+\input{chapters/01_introduction.tex}
+\input{chapters/02_overview.tex}
+\input{chapters/03_design.tex}
+\input{chapters/04_implementation.tex}
+\input{chapters/05_evaluation.tex}
+\input{chapters/06_conclusion.tex}
+
+
+% \begin{noindent}
+% \begingroup
+%   \raggedright
+%     \bibliographystyle{apacite}
+%     \bibliography{refs/refs.bib}
+%   \nocite{*}
+% \endgroup
+% \end{noindent}
+
+% \clearpage
+% \appendix
+
+\end{document}

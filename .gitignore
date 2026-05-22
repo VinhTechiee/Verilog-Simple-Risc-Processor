@@ -8,6 +8,9 @@ ehthumbs.db
 Thumbs.db
 
 # LaTeX generated files
+_minted
+*.lof
+*.lot
 *.aux
 *.bbl
 *.blg
@@ -46,3 +49,8 @@ output.txt
 *.swp
 *.bak
 *~
+
+# Nix stuffs
+.direnv
+.envrc
+.svlint.toml
