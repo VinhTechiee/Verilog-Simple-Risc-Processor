@@ -211,7 +211,7 @@ def clean_log(text: str, sim: str) -> str:
         line = line.strip()
         if not line:
             continue
-        
+
         if sim == "vivado":
             # Ignore Vivado noise
             if line.startswith("****** xsim"): continue
@@ -238,7 +238,7 @@ def clean_log(text: str, sim: str) -> str:
             if "LXT2 info:" in line: continue
             if "FST info:" in line: continue
             if "$finish called at time" in line: continue
-            
+
         cleaned.append(line)
     return "\n".join(cleaned)
 
@@ -273,7 +273,7 @@ def compare_output(actual: str, expected: str, loose: bool) -> tuple[bool, str]:
         if act != exp:
             diff_lines.append(f"Line {i}: Expected: '{exp}'")
             diff_lines.append(f"        Actual:   '{act}'")
-            
+
     if len(act_lines) > len(exp_lines):
         for i in range(len(exp_lines), len(act_lines)):
             diff_lines.append(f"Line {i+1}: Extra actual output: '{act_lines[i]}'")
@@ -330,7 +330,7 @@ def run_test(test_dir: Path, src_files: list[str],
             path = Path(d)
             if path.exists() and path.is_dir():
                 shutil.rmtree(path, ignore_errors=True)
-                
+
         if sim == "icarus":
             ok, stdout, err_msg = run_icarus(all_src, tb_file, work_dir, top_module)
         else:
