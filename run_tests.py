@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import sys, io
+import sys
+import io
+import argparse
+import shutil
+import subprocess
+import tempfile
+from pathlib import Path
+
 # Force UTF-8 output on Windows to avoid cp1252 encode errors
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -37,16 +44,6 @@ Usage examples
   # Loose comparison (ignore blank lines and leading/trailing whitespace)
   python run_tests.py --src src --testbench testbench --loose
 """
-
-import argparse
-import difflib
-import os
-import re
-import shutil
-import subprocess
-import sys
-import tempfile
-from pathlib import Path
 
 # ─────────────────────────────────────────────
 # ANSI colour helpers (no external libs needed)
@@ -214,30 +211,52 @@ def clean_log(text: str, sim: str) -> str:
 
         if sim == "vivado":
             # Ignore Vivado noise
-            if line.startswith("****** xsim"): continue
-            if line.startswith("**** SW Build"): continue
-            if line.startswith("**** IP Build"): continue
-            if line.startswith("**** SharedData Build"): continue
-            if line.startswith("**** Start of session"): continue
-            if line.startswith("** Copyright"): continue
-            if line.startswith("source xsim.dir"): continue
-            if line.startswith("# xsim"): continue
-            if line.startswith("Time resolution"): continue
-            if line == "run -all": continue
-            if line.startswith("Vivado Simulator"): continue
-            if line.startswith("Copyright"): continue
-            if line.startswith("Time Resolution"): continue
-            if "Simulator is doing nothing" in line: continue
-            if "$finish called at time" in line: continue
-            if line.startswith("INFO:") or line.startswith("WARNING:"): continue
-            if line.startswith("xsim%"): continue
-            if line.startswith("exit"): continue
+            if line.startswith("****** xsim"):
+                continue
+            if line.startswith("**** SW Build"):
+                continue
+            if line.startswith("**** IP Build"):
+                continue
+            if line.startswith("**** SharedData Build"):
+                continue
+            if line.startswith("**** Start of session"):
+                continue
+            if line.startswith("** Copyright"):
+                continue
+            if line.startswith("source xsim.dir"):
+                continue
+            if line.startswith("# xsim"):
+                continue
+            if line.startswith("Time resolution"):
+                continue
+            if line == "run -all":
+                continue
+            if line.startswith("Vivado Simulator"):
+                continue
+            if line.startswith("Copyright"):
+                continue
+            if line.startswith("Time Resolution"):
+                continue
+            if "Simulator is doing nothing" in line:
+                continue
+            if "$finish called at time" in line:
+                continue
+            if line.startswith("INFO:") or line.startswith("WARNING:"):
+                continue
+            if line.startswith("xsim%"):
+                continue
+            if line.startswith("exit"):
+                continue
         elif sim == "icarus":
             # Ignore Icarus noise
-            if line.startswith("VCD info:"): continue
-            if "LXT2 info:" in line: continue
-            if "FST info:" in line: continue
-            if "$finish called at time" in line: continue
+            if line.startswith("VCD info:"):
+                continue
+            if "LXT2 info:" in line:
+                continue
+            if "FST info:" in line:
+                continue
+            if "$finish called at" in line:
+                continue
 
         cleaned.append(line)
     return "\n".join(cleaned)

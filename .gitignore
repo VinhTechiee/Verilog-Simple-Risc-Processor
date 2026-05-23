@@ -20,8 +20,6 @@ _minted
 *.toc
 *.fdb_latexmk
 *.synctex.gz
-*.pdf
-# (Optional) remove *.pdf if you want to commit your final PDFs
 
 # Vivado / Xilinx generated files
 *.jou
