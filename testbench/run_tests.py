@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import sys, io
+import argparse
+import io
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
 # Force UTF-8 output on Windows to avoid cp1252 encode errors
 if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
@@ -38,15 +45,6 @@ Usage examples
   python run_tests.py --src src --testbench testbench --loose
 """
 
-import argparse
-import difflib
-import os
-import re
-import shutil
-import subprocess
-import sys
-import tempfile
-from pathlib import Path
 
 # ─────────────────────────────────────────────
 # ANSI colour helpers (no external libs needed)
@@ -211,34 +209,56 @@ def clean_log(text: str, sim: str) -> str:
         line = line.strip()
         if not line:
             continue
-        
+
         if sim == "vivado":
             # Ignore Vivado noise
-            if line.startswith("****** xsim"): continue
-            if line.startswith("**** SW Build"): continue
-            if line.startswith("**** IP Build"): continue
-            if line.startswith("**** SharedData Build"): continue
-            if line.startswith("**** Start of session"): continue
-            if line.startswith("** Copyright"): continue
-            if line.startswith("source xsim.dir"): continue
-            if line.startswith("# xsim"): continue
-            if line.startswith("Time resolution"): continue
-            if line == "run -all": continue
-            if line.startswith("Vivado Simulator"): continue
-            if line.startswith("Copyright"): continue
-            if line.startswith("Time Resolution"): continue
-            if "Simulator is doing nothing" in line: continue
-            if "$finish called at time" in line: continue
-            if line.startswith("INFO:") or line.startswith("WARNING:"): continue
-            if line.startswith("xsim%"): continue
-            if line.startswith("exit"): continue
+            if line.startswith("****** xsim"):
+                continue
+            if line.startswith("**** SW Build"):
+                continue
+            if line.startswith("**** IP Build"):
+                continue
+            if line.startswith("**** SharedData Build"):
+                continue
+            if line.startswith("**** Start of session"):
+                continue
+            if line.startswith("** Copyright"):
+                continue
+            if line.startswith("source xsim.dir"):
+                continue
+            if line.startswith("# xsim"):
+                continue
+            if line.startswith("Time resolution"):
+                continue
+            if line == "run -all":
+                continue
+            if line.startswith("Vivado Simulator"):
+                continue
+            if line.startswith("Copyright"):
+                continue
+            if line.startswith("Time Resolution"):
+                continue
+            if "Simulator is doing nothing" in line:
+                continue
+            if "$finish called at time" in line:
+                continue
+            if line.startswith("INFO:") or line.startswith("WARNING:"):
+                continue
+            if line.startswith("xsim%"):
+                continue
+            if line.startswith("exit"):
+                continue
         elif sim == "icarus":
             # Ignore Icarus noise
-            if line.startswith("VCD info:"): continue
-            if "LXT2 info:" in line: continue
-            if "FST info:" in line: continue
-            if "$finish called at time" in line: continue
-            
+            if line.startswith("VCD info:"):
+                continue
+            if "LXT2 info:" in line:
+                continue
+            if "FST info:" in line:
+                continue
+            if "$finish called at time" in line:
+                continue
+
         cleaned.append(line)
     return "\n".join(cleaned)
 
@@ -273,7 +293,7 @@ def compare_output(actual: str, expected: str, loose: bool) -> tuple[bool, str]:
         if act != exp:
             diff_lines.append(f"Line {i}: Expected: '{exp}'")
             diff_lines.append(f"        Actual:   '{act}'")
-            
+
     if len(act_lines) > len(exp_lines):
         for i in range(len(exp_lines), len(act_lines)):
             diff_lines.append(f"Line {i+1}: Extra actual output: '{act_lines[i]}'")
@@ -330,7 +350,7 @@ def run_test(test_dir: Path, src_files: list[str],
             path = Path(d)
             if path.exists() and path.is_dir():
                 shutil.rmtree(path, ignore_errors=True)
-                
+
         if sim == "icarus":
             ok, stdout, err_msg = run_icarus(all_src, tb_file, work_dir, top_module)
         else:
