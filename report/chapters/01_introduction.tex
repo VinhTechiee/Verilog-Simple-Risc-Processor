@@ -1,1 +1,71 @@
 \section{Introduction}
+
+\subsection{Project Overview}
+
+A Central Processing Unit (CPU) is the core component of a computer system, responsible for fetching instructions, decoding them, executing operations, and controlling data movement between internal registers and memory. In this project, a simple Reduced Instruction Set Computer (RISC) CPU is designed and implemented using Verilog Hardware Description Language (HDL).
+
+The proposed CPU follows a simplified RISC architecture with a compact instruction format. Each instruction consists of a 3-bit opcode and a 5-bit operand field, allowing the processor to support eight basic instructions and address a memory space of 32 locations. Although the architecture is simple, it demonstrates the fundamental principles of processor design, including instruction fetching, instruction decoding, arithmetic and logic execution, memory access, and program control.
+
+The CPU is organized as a set of functional hardware modules, including the Program Counter, Address Multiplexer, Memory, Instruction Register, Accumulator Register, Arithmetic Logic Unit, and Controller. These modules are designed independently and then integrated into a complete processor system. The CPU operates based on clock and reset signals and continues executing instructions until a halt instruction is encountered.
+
+\subsection{Objectives}
+
+The main objective of this project is to design, implement, and verify a simple RISC CPU at the register-transfer level using Verilog HDL. Through this project, the design process of a basic processor can be studied from both theoretical and practical perspectives.
+
+The specific objectives of the project are as follows:
+
+\begin{itemize}
+    \item To understand the fundamental organization and operation of a RISC-based CPU.
+    \item To design the main functional blocks of the CPU, including the Program Counter, Address Multiplexer, Memory, Instruction Register, Accumulator Register, ALU, and Controller.
+    \item To implement each functional block using Verilog HDL with a modular and hierarchical design approach.
+    \item To integrate all modules into a complete CPU datapath and control path.
+    \item To verify the correctness of each module through individual testbenches.
+    \item To evaluate the complete CPU by observing simulation waveforms and checking the execution of supported instructions.
+\end{itemize}
+
+By completing these objectives, the project provides practical experience in digital system design, hardware modeling, finite state machine design, and simulation-based verification.
+
+\subsection{Tools and Environment}
+
+The main tool used in this project is Vivado Design Suite. Vivado provides an integrated development environment for designing, simulating, and verifying digital hardware systems described using Verilog HDL. In this project, Vivado is used to create Verilog source files, develop testbenches, run simulations, and analyze signal waveforms.
+
+Each CPU component is implemented as an independent Verilog module and verified using a corresponding testbench. After unit-level verification, the modules are connected together in a top-level design to perform system-level simulation. The waveform viewer in Vivado is used to observe the behavior of internal signals, such as the program counter value, memory address, instruction register output, accumulator value, ALU result, and controller signals.
+
+Vivado is suitable for this project because it supports hierarchical hardware design, Verilog-based modeling, testbench simulation, and detailed waveform analysis. These features allow the design to be verified systematically before further hardware synthesis or implementation.
+
+\subsection{Main Features of the CPU}
+
+The designed CPU supports a small but representative set of instructions. Since the opcode field is 3 bits wide, the CPU can define up to eight instructions. These instructions include program control, arithmetic operations, logic operations, memory access, and conditional execution.
+
+The main features of the CPU are summarized as follows:
+
+\begin{itemize}
+    \item A 3-bit opcode field supporting eight basic instructions.
+    \item A 5-bit operand field supporting 32 memory address locations.
+    \item A Program Counter used to store and update the current instruction address.
+    \item An Address Multiplexer used to select between the instruction address and operand address.
+    \item A Memory module used to store both instructions and data.
+    \item An Instruction Register used to hold and decode the current instruction.
+    \item An Accumulator Register used to store intermediate and final computation results.
+    \item An ALU used to perform arithmetic and logic operations.
+    \item A Controller implemented as a finite state machine to generate control signals for instruction execution.
+    \item A halt mechanism that stops program execution when the halt instruction is detected.
+\end{itemize}
+
+The CPU performs its operation through a sequence of basic stages: instruction fetch, instruction decode, operand access, execution, and result storage. This execution flow reflects the essential behavior of a real processor while remaining simple enough for analysis, implementation, and verification.
+
+\subsection{Report Organization}
+
+This report is organized into six main sections.
+
+Section I introduces the project, including the project overview, objectives, tools and environment, main CPU features, and report structure.
+
+Section II presents the theoretical background of the project. It explains the basic concepts of RISC architecture, instruction format, CPU execution cycle, datapath, control path, and supported instructions.
+
+Section III describes the design of the CPU. This section presents the overall system architecture, block diagram, and detailed functions of each hardware module.
+
+Section IV discusses the implementation of the CPU using Verilog HDL. It explains the module structure, implementation approach, controller finite state machine, memory organization, and top-level integration.
+
+Section V presents the testing and evaluation process. It includes unit-level testbenches, system-level simulation, waveform analysis, and functional evaluation of the CPU.
+
+Section VI concludes the report by summarizing the achieved results, discussing difficulties encountered during the project, and proposing possible future improvements.
