@@ -1,4 +1,4 @@
-module memory (
+module Memory (
     input       clk,
     input       rd,
     input       wr,
@@ -6,7 +6,7 @@ module memory (
     inout [7:0] data
 );
 
-  // 1. Declare a 2D array of registers to represent memory cells (32 cells of 8 bits)
+  // 1. Declare a 2D array of registers to represent Memory cells (32 cells of 8 bits)
   reg [7:0] mem_cells[31:0];
 
   // 2. Declare a register to hold the output data

@@ -1,45 +1,54 @@
 `timescale 1ns / 1ps
 
+// ============================================================
+// Controller_tb.v — Testbench for Controller
+// Covers 6 scenarios:
+//   TC1: System Reset
+//   TC2 & TC3: Fetch Phase
+//   TC4: Execution Phase (ADD, STO, JMP, HLT)
+//   TC5: Conditional Jump (SKZ)
+//   TC6: Sync Signals (Async Reset check)
+// ============================================================
 module Controller_tb;
-  reg clk;
-  reg rst;
+
+  // ── Signals ─────────────────────────────────────────
+  reg       clk;
+  reg       rst;
   reg [2:0] opcode;
-  reg zero;
+  reg       zero;
 
   wire sel, rd, ld_ir, halt, inc_pc, ld_ac, ld_pc, wr, data_e;
 
-  // ── Khởi tạo module ──────────────────────────────
+  // ── DUT instantiation ────────────────────────────────
   controller uut (
-      .clk(clk),
-      .rst(rst),
+      .clk   (clk),
+      .rst   (rst),
       .opcode(opcode),
-      .zero(zero),
-      .sel(sel),
-      .rd(rd),
-      .ld_ir(ld_ir),
-      .halt(halt),
+      .zero  (zero),
+      .sel   (sel),
+      .rd    (rd),
+      .ld_ir (ld_ir),
+      .halt  (halt),
       .inc_pc(inc_pc),
-      .ld_ac(ld_ac),
-      .ld_pc(ld_pc),
-      .wr(wr),
+      .ld_ac (ld_ac),
+      .ld_pc (ld_pc),
+      .wr    (wr),
       .data_e(data_e)
   );
 
-  // ── Tạo xung Clock ───────────────────────────────
-  initial begin
-    clk = 0;
-    forever #5 clk = ~clk;
-  end
+  // ── Clock: 10 ns period ──────────────────────────────
+  initial clk = 0;
+  always #5 clk = ~clk;
 
-  // ── Task nhảy 1 chu kỳ máy ───────────────────────
+  // ── Task: tick one clock cycle ───────────────────────
   task tick;
     begin
       @(posedge clk);
-      #1;  // Đợi tín hiệu đầu ra ổn định
+      #1;  // Wait for output signals to stabilize
     end
   endtask
 
-  // ── Task hiển thị ────────────────────────────────
+  // ── Task: display state ──────────────────────────────
   task display_state;
     input [8*12:1] state_name;
     begin
@@ -50,20 +59,21 @@ module Controller_tb;
   endtask
 
   initial begin
-    // Khởi tạo
+    // Init
     rst = 1;
     opcode = 3'b000;
     zero = 0;
     repeat (2) @(posedge clk);
     #1;
-    // ── TC1: Reset hệ thống ───────────────────────
+
+    // ── TC1: System Reset ────────────────────────────
     $display("--- TC1: System Reset ---");
     display_state("Reset       ");
 
-    // Bỏ reset
+    // De-assert reset
     rst = 0;
 
-    // ── TC2 & TC3: Trình tự Nạp lệnh ──────────────
+    // ── TC2 & TC3: Fetch Phase ───────────────────────
     $display("--- TC2 & TC3: Fetch Phase ---");
     opcode = 3'b010;
     display_state("0:INST_ADDR ");
@@ -75,7 +85,7 @@ module Controller_tb;
     display_state("3:IDLE      ");
     tick();  // -> 4
 
-    // ── TC4: Giai đoạn thực thi (Lệnh ADD) ────────
+    // ── TC4: Execution Phase (ADD) ───────────────────
     $display("--- TC4: Execution Phase (ADD) ---");
     display_state("4:OP_ADDR   ");
     tick();  // -> 5
@@ -86,7 +96,7 @@ module Controller_tb;
     display_state("7:STORE     ");
     tick();  // -> 0
 
-    // ── TC4: Giai đoạn thực thi (Lệnh STO) ────────
+    // ── TC4: Execution Phase (STO) ───────────────────
     $display("--- TC4: Execution Phase (STO) ---");
     rst = 1;
     #10;
@@ -95,7 +105,7 @@ module Controller_tb;
     tick();
     tick();
     tick();
-    tick();  // Bỏ qua pha nạp lệnh
+    tick();  // Skip fetch phase
     display_state("4:OP_ADDR   ");
     tick();
     display_state("5:OP_FETCH  ");
@@ -105,7 +115,7 @@ module Controller_tb;
     display_state("7:STORE     ");
     tick();  // -> 0
 
-    // ── TC4: Giai đoạn thực thi (Lệnh JMP) ────────
+    // ── TC4: Execution Phase (JMP) ───────────────────
     $display("--- TC4: Execution Phase (JMP) ---");
     rst = 1;
     #10;
@@ -124,7 +134,7 @@ module Controller_tb;
     display_state("7:STORE     ");
     tick();  // -> 0
 
-    // ── TC4: Giai đoạn thực thi (Lệnh HLT) ────────
+    // ── TC4: Execution Phase (HLT) ───────────────────
     $display("--- TC4: Execution Phase (HLT) ---");
     rst = 1;
     #10;
@@ -143,13 +153,13 @@ module Controller_tb;
     display_state("7:STORE     ");
     tick();  // -> 0
 
-    // ── TC5: Logic nhảy có điều kiện (SKZ) ────────
+    // ── TC5: Conditional Jump (SKZ) ──────────────────
     $display("--- TC5: Conditional Jump (SKZ) ---");
     rst = 1;
     #10;
-    rst = 0;
+    rst    = 0;
     opcode = 3'b001;  // SKZ
-    zero = 0;  // Không nhảy
+    zero   = 0;  // No jump
     tick();
     tick();
     tick();
@@ -166,9 +176,9 @@ module Controller_tb;
 
     rst = 1;
     #10;
-    rst = 0;
+    rst    = 0;
     opcode = 3'b001;  // SKZ
-    zero = 1;  // Có nhảy
+    zero   = 1;  // Jump occurs
     tick();
     tick();
     tick();
@@ -182,7 +192,7 @@ module Controller_tb;
     tick();
     display_state("7:STORE     ");
 
-    // ── TC6: Tính đồng bộ của tín hiệu ────────────
+    // ── TC6: Sync Signals (Async Reset check) ────────
     $display("--- TC6: Sync Signals (Async Reset check) ---");
     rst = 1;
     #2;

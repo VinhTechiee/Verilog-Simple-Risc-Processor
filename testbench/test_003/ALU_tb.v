@@ -1,47 +1,59 @@
 `timescale 1ns / 1ps
 
+// ============================================================
+// ALU_tb.v — Testbench for Arithmetic Logic Unit (ALU)
+// Covers 7 scenarios:
+//   TC1: Zero Status Flag
+//   TC2: Arithmetic & Logic
+//   TC3: Transfer Operations
+//   TC4: Combinational Property
+//   TC5: Boundary Cases
+//   TC6: Complex Bitwise Logic
+//   TC7: Zero Flag Independence
+// ============================================================
 module ALU_tb;
-  // ── Khai báo tín hiệu ────────────────────────────
-  reg [31:0] inA;
-  reg [31:0] inB;
-  reg [2:0] opcode;
-  wire [31:0] alu_out;
-  wire zero;
 
-  // ── Khởi tạo ALU ─────────────────────────────────
+  // ── Signals ─────────────────────────────────────────
+  reg  [31:0] inA;
+  reg  [31:0] inB;
+  reg  [ 2:0] opcode;
+  wire [31:0] alu_out;
+  wire        zero;
+
+  // ── DUT instantiation ────────────────────────────────
   alu uut (
-      .inA(inA),
-      .inB(inB),
-      .opcode(opcode),
+      .inA    (inA),
+      .inB    (inB),
+      .opcode (opcode),
       .alu_out(alu_out),
-      .zero(zero)
+      .zero   (zero)
   );
 
-  // ── Task hiển thị ────────────────────────────────
+  // ── Task: display state ──────────────────────────────
   task display_state;
     input [8*5:1] tc_name;
     begin
-      #1;  // Đợi combinational logic
+      #1;  // Wait for combinational logic to update
       $display("%s | opcode=%b | inA=%0d | inB=%0d | zero=%b | alu_out=%0d", tc_name, opcode, inA,
                inB, zero, alu_out);
     end
   endtask
 
   initial begin
-    // Khởi tạo
+    // Init
     inA = 0;
     inB = 0;
     opcode = 3'b000;
     #10;
 
-    // ── TC1: Kiểm tra tín hiệu trạng thái Zero ────
+    // ── TC1: Zero Status Flag ────────────────────────
     $display("--- TC1: Zero Status Flag ---");
     inA = 32'd0;
     display_state("TC1.1");  // zero = 1
     inA = 32'd50;
     display_state("TC1.2");  // zero = 0
 
-    // ── TC2: Phép tính số học & Logic ─────────────
+    // ── TC2: Arithmetic & Logic ──────────────────────
     $display("--- TC2: Arithmetic & Logic ---");
     inA = 32'd100;
     inB = 32'd25;
@@ -62,7 +74,7 @@ module ALU_tb;
     opcode = 3'b101;
     display_state("LDA  ");  // 25
 
-    // ── TC3: Lệnh chuyển tiếp ─────────────────────
+    // ── TC3: Transfer Operations ─────────────────────
     $display("--- TC3: Transfer Operations ---");
     inA = 32'd999;
     inB = 32'd555;
@@ -83,43 +95,43 @@ module ALU_tb;
     opcode = 3'b111;
     display_state("JMP  ");  // 999
 
-    // ── TC4: Kiểm tra tính tổ hợp ─────────────────
+    // ── TC4: Combinational Property ──────────────────
     $display("--- TC4: Combinational Property ---");
     inA = 32'd10;
     inB = 32'd20;
     opcode = 3'b010;  // ADD
-    // Thay đổi không có clock
+
+    // Change occurs without a clock edge
     #1;
     $display("TC4   | opcode=%b | inA=%0d | inB=%0d | zero=%b | alu_out=%0d", opcode, inA, inB,
-             zero, alu_out);  // Kỳ vọng 30
+             zero, alu_out);  // Expect: 30
 
-
+    // ── TC5: Boundary Cases ──────────────────────────
     $display("--- TC5: Boundary Cases ---");
     opcode = 3'b010;  // ADD
     inA = 32'hFFFF_FFFF;
     inB = 32'h0000_0001;
-    display_state("TC5.1");  // Kỳ vọng: alu_out = 0 (Tràn số 32-bit)
+    display_state("TC5.1");  // Expect: alu_out = 0 (32-bit overflow)
 
     inA = 32'h7FFF_FFFF;
     inB = 32'h7FFF_FFFF;
-    display_state("TC5.2");  // Cộng hai số dương lớn nhất
+    display_state("TC5.2");  // Adding two largest positive numbers
 
-    // ── TC6: Complex Bitwise Logic ─────────────────────
+    // ── TC6: Complex Bitwise Logic ───────────────────
     $display("--- TC6: Complex Logic ---");
     inA = 32'hAAAA_AAAA;  // 101010...
     inB = 32'h5555_5555;  // 010101...
 
     opcode = 3'b011;  // AND
-    display_state("AND_C");  // Kỳ vọng: 0
+    display_state("AND_C");  // Expect: 0
 
     opcode = 3'b100;  // XOR
-    display_state("XOR_C");  // Kỳ vọng: FFFFFFFF (Nếu thực hiện XOR thực thụ)
+    display_state("XOR_C");  // Expect: FFFFFFFF 
 
-    // ── TC7: Zero Flag Independence ────────────────────
+    // ── TC7: Zero Flag Independence ──────────────────
     $display("--- TC7: Zero Flag Independence ---");
-    // Kiểm tra xem zero flag có thay đổi ngay lập tức khi inA đổi, 
-    // bất kể opcode đang là gì.
-    opcode = 3'b101;  // LDA (Output là inB)
+    // Verify zero flag changes immediately when inA changes, regardless of opcode
+    opcode = 3'b101;  // LDA (Output is inB)
     inA = 32'd0;
     inB = 32'd100;
     #1;

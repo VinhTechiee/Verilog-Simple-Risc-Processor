@@ -1,13 +1,25 @@
 `timescale 1ns / 1ps
 
+// ============================================================
+// AM_tb.v — Testbench for Address Mux (AM)
+// Covers 7 scenarios:
+//   TC1: Select pc_addr (sel = 1)
+//   TC2: Select ir_addr (sel = 0)
+//   TC3: Toggle sel continuously
+//   TC4: Parameter Override (WIDTH = 16)
+//   TC5: Stability Check
+//   TC6: Edge Case Addresses
+//   TC7: Async Response
+// ============================================================
 module AM_tb;
-  // ── Tín hiệu nội bộ (32-bit default) ────────────
-  reg [31:0] pc_addr;
-  reg [31:0] ir_addr;
-  reg sel;
+
+  // ── Signals (32-bit default) ────────────────────────
+  reg  [31:0] pc_addr;
+  reg  [31:0] ir_addr;
+  reg         sel;
   wire [31:0] addr_out;
 
-  // ── Khởi tạo module cần test (WIDTH = 32) ───────
+  // ── DUT instantiation (WIDTH = 32) ───────────────────
   address_mux uut (
       .pc_addr (pc_addr),
       .ir_addr (ir_addr),
@@ -15,7 +27,7 @@ module AM_tb;
       .addr_out(addr_out)
   );
 
-  // ── Khởi tạo module test Parameter (WIDTH = 16) ─
+  // ── DUT instantiation for Parameter Test (WIDTH = 16) 
   reg  [15:0] pc_addr_16;
   reg  [15:0] ir_addr_16;
   wire [15:0] addr_out_16;
@@ -23,24 +35,24 @@ module AM_tb;
   address_mux #(
       .WIDTH(16)
   ) uut_16 (
-      .pc_addr(pc_addr_16),
-      .ir_addr(ir_addr_16),
-      .sel(sel),
+      .pc_addr (pc_addr_16),
+      .ir_addr (ir_addr_16),
+      .sel     (sel),
       .addr_out(addr_out_16)
   );
 
-  // ── Task hiển thị kết quả (32-bit) ──────────────
+  // ── Task: display state (32-bit) ─────────────────────
   task display_state;
     input [8*5:1] tc_name;
     begin
-      #1;  // Đợi combinational logic cập nhật
+      #1;  // Wait for combinational logic to update
       $display("%s | sel=%b | pc_addr=%0d | ir_addr=%0d | addr_out=%0d", tc_name, sel, pc_addr,
                ir_addr, addr_out);
     end
   endtask
 
   initial begin
-    // Khởi tạo
+    // Init
     pc_addr = 32'd1000;
     ir_addr = 32'd2000;
     sel = 0;
@@ -48,17 +60,17 @@ module AM_tb;
     pc_addr_16 = 16'd500;
     ir_addr_16 = 16'd600;
 
-    // ── TC1: Lựa chọn địa chỉ lệnh (sel = 1) ─────
+    // ── TC1: Select instruction address ──────────────
     $display("--- TC1: Select pc_addr ---");
     sel = 1;
     display_state("TC1  ");
 
-    // ── TC2: Lựa chọn địa chỉ toán hạng (sel = 0) 
+    // ── TC2: Select operand address ──────────────────
     $display("--- TC2: Select ir_addr ---");
     sel = 0;
     display_state("TC2  ");
 
-    // ── TC3: Thay đổi tín hiệu sel liên tiếp ─────
+    // ── TC3: Toggle sel ──────────────────────────────
     $display("--- TC3: Toggle sel ---");
     pc_addr = 32'd5555;
     ir_addr = 32'd9999;
@@ -69,7 +81,7 @@ module AM_tb;
     sel = 1;
     display_state("TC3.3");
 
-    // ── TC4: Thay đổi parameter (WIDTH = 16) ─────
+    // ── TC4: Parameter Override ──────────────────────
     $display("--- TC4: Parameter Override (WIDTH=16) ---");
     sel = 1;
     #1;
@@ -80,6 +92,7 @@ module AM_tb;
     $display("TC4.2 | sel=%b | pc_addr_16=%0d | ir_addr_16=%0d | addr_out_16=%0d", sel, pc_addr_16,
              ir_addr_16, addr_out_16);
 
+    // ── TC5: Stability Check ─────────────────────────
     $display("--- TC5: Stability Check ---");
     sel = 1;
     pc_addr = 32'd7777;
@@ -90,6 +103,7 @@ module AM_tb;
     ir_addr = 32'd8888;
     display_state("TC5.2");
 
+    // ── TC6: Edge Case Addresses ─────────────────────
     $display("--- TC6: Edge Case Addresses ---");
     sel = 1;
     pc_addr = 32'd0;
@@ -98,6 +112,7 @@ module AM_tb;
     sel = 0;
     display_state("TC6.2");
 
+    // ── TC7: Async Response ──────────────────────────
     $display("--- TC7: Async Response ---");
     sel = 1;
     #1;
@@ -112,4 +127,3 @@ module AM_tb;
     $finish;
   end
 endmodule
-

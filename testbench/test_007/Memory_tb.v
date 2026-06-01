@@ -15,7 +15,7 @@ module Memory_tb;
   reg        clk;
   reg        rd;
   reg        wr;
-  reg  [4:0] addr;  // 5-bit address for 32 memory cells
+  reg  [4:0] addr;  // 5-bit address for 32 Memory cells
   wire [7:0] data;  // Bidirectional bus
 
   // Bus control signals from Testbench
@@ -25,7 +25,7 @@ module Memory_tb;
   assign data = (wr && !rd) ? data_reg : 8'hZZ;
 
   // ── DUT instantiation ────────────────────────────────
-  memory uut (
+  Memory uut (
       .clk (clk),
       .rd  (rd),
       .wr  (wr),
@@ -63,11 +63,11 @@ module Memory_tb;
     rd       = 0;
     addr     = 5'd10;
     data_reg = 8'hA5;
-    display_state("TC1.1");  // Write to memory cell 10
+    display_state("TC1.1");  // Write to Memory cell 10
 
     addr     = 5'd20;
     data_reg = 8'h12;
-    display_state("TC1.2");  // Write to memory cell 20
+    display_state("TC1.2");  // Write to Memory cell 20
     wr = 0;
 
     // ── TC2: Read Data ───────────────────────────────
