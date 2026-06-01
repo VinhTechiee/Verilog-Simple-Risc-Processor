@@ -8,4 +8,7 @@ module address_mux #(
 );
     // 1. TODO: Implement combinational logic to select between pc_addr and ir_addr based on the sel signal
     // 2. TODO: Output pc_addr when sel is 1, and ir_addr when sel is 0
+
+    assign addr_out = (sel) ? pc_addr : ir_addr;
+
 endmodule
