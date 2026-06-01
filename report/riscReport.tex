@@ -8,11 +8,25 @@
 \setlength{\arraycolsep}{15pt}
 \AtBeginDocument{\counterwithin{lstlisting}{section}}
 
+
+%%% Catppuccin Latte palette
+\definecolor{ctpBase}{HTML}{eff1f5}
+\definecolor{ctpMantle}{HTML}{e6e9ef}
+\definecolor{ctpText}{HTML}{4c4f69}
+\definecolor{ctpBlue}{HTML}{1e66f5}
+\definecolor{ctpMauve}{HTML}{8839ef}
+
 %%% Custom commands
-\newcommand{\inputaltcode}[3][]{
-  \texttt{\detokenize{#3}}:\nopagebreak%
+\newcommand{\inputsrccode}[3][]{
+  \texttt{\detokenize{#2}}:\nopagebreak%
   \begin{mdframed}[backgroundcolor=gray!10]%
-      \inputminted[#1]{#2}{codes/#3}%
+      \inputminted[#1]{verilog}{../src/#2}%
+  \end{mdframed}%
+}
+\newcommand{\inputtestbench}[3][]{
+  \texttt{\detokenize{#2}}:\nopagebreak%
+  \begin{mdframed}[backgroundcolor=gray!10]%
+      \inputminted[#1]{verilog}{../testbench/#3}%
   \end{mdframed}%
 }
 \newcommand{\inputfigure}[3][0.95]{

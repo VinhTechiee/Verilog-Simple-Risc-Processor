@@ -1,4 +1,4 @@
-\section{Introduction}
+\section{Introduction}\label{sec:introduction} % (fold)
 
 \subsection{Project Overview}
 
@@ -15,12 +15,12 @@ The main objective of this project is to design, implement, and verify a simple 
 The specific objectives of the project are as follows:
 
 \begin{itemize}
-    \item To understand the fundamental organization and operation of a RISC-based CPU.
-    \item To design the main functional blocks of the CPU, including the Program Counter, Address Multiplexer, Memory, Instruction Register, Accumulator Register, ALU, and Controller.
-    \item To implement each functional block using Verilog HDL with a modular and hierarchical design approach.
-    \item To integrate all modules into a complete CPU datapath and control path.
-    \item To verify the correctness of each module through individual testbenches.
-    \item To evaluate the complete CPU by observing simulation waveforms and checking the execution of supported instructions.
+	\item To understand the fundamental organization and operation of a RISC-based CPU.
+	\item To design the main functional blocks of the CPU, including the Program Counter, Address Multiplexer, Memory, Instruction Register, Accumulator Register, ALU, and Controller.
+	\item To implement each functional block using Verilog HDL with a modular and hierarchical design approach.
+	\item To integrate all modules into a complete CPU datapath and control path.
+	\item To verify the correctness of each module through individual testbenches.
+	\item To evaluate the complete CPU by observing simulation waveforms and checking the execution of supported instructions.
 \end{itemize}
 
 By completing these objectives, the project provides practical experience in digital system design, hardware modeling, finite state machine design, and simulation-based verification.
@@ -40,16 +40,16 @@ The designed CPU supports a small but representative set of instructions. Since 
 The main features of the CPU are summarized as follows:
 
 \begin{itemize}
-    \item A 3-bit opcode field supporting eight basic instructions.
-    \item A 5-bit operand field supporting 32 memory address locations.
-    \item A Program Counter used to store and update the current instruction address.
-    \item An Address Multiplexer used to select between the instruction address and operand address.
-    \item A Memory module used to store both instructions and data.
-    \item An Instruction Register used to hold and decode the current instruction.
-    \item An Accumulator Register used to store intermediate and final computation results.
-    \item An ALU used to perform arithmetic and logic operations.
-    \item A Controller implemented as a finite state machine to generate control signals for instruction execution.
-    \item A halt mechanism that stops program execution when the halt instruction is detected.
+	\item A 3-bit opcode field supporting eight basic instructions.
+	\item A 5-bit operand field supporting 32 memory address locations.
+	\item A Program Counter used to store and update the current instruction address.
+	\item An Address Multiplexer used to select between the instruction address and operand address.
+	\item A Memory module used to store both instructions and data.
+	\item An Instruction Register used to hold and decode the current instruction.
+	\item An Accumulator Register used to store intermediate and final computation results.
+	\item An ALU used to perform arithmetic and logic operations.
+	\item A Controller implemented as a finite state machine to generate control signals for instruction execution.
+	\item A halt mechanism that stops program execution when the halt instruction is detected.
 \end{itemize}
 
 The CPU performs its operation through a sequence of basic stages: instruction fetch, instruction decode, operand access, execution, and result storage. This execution flow reflects the essential behavior of a real processor while remaining simple enough for analysis, implementation, and verification.
@@ -58,14 +58,16 @@ The CPU performs its operation through a sequence of basic stages: instruction f
 
 This report is organized into six main sections.
 
-Section I introduces the project, including the project overview, objectives, tools and environment, main CPU features, and report structure.
+Section~\ref{sec:introduction} introduces the project, including the project overview, objectives, tools and environment, main CPU features, and report structure.
 
-Section II presents the theoretical background of the project. It explains the basic concepts of RISC architecture, instruction format, CPU execution cycle, datapath, control path, and supported instructions.
+Section~\ref{sec:theoretical_overview} presents the theoretical background of the project. It explains the basic concepts of RISC architecture, instruction format, CPU execution cycle, datapath, control path, and supported instructions.
 
-Section III describes the design of the CPU. This section presents the overall system architecture, block diagram, and detailed functions of each hardware module.
+Section~\ref{sec:design} describes the design of the CPU. This section presents the overall system architecture, block diagram, and detailed functions of each hardware module.
 
-Section IV discusses the implementation of the CPU using Verilog HDL. It explains the module structure, implementation approach, controller finite state machine, memory organization, and top-level integration.
+Section~\ref{sec:implementation} discusses the implementation of the CPU using Verilog HDL. It explains the module structure, implementation approach, controller finite state machine, memory organization, and top-level integration.
 
-Section V presents the testing and evaluation process. It includes unit-level testbenches, system-level simulation, waveform analysis, and functional evaluation of the CPU.
+Section~\ref{sec:testing_and_evaluation} presents the testing and evaluation process. It includes unit-level testbenches, system-level simulation, waveform analysis, and functional evaluation of the CPU.
 
-Section VI concludes the report by summarizing the achieved results, discussing difficulties encountered during the project, and proposing possible future improvements.
+Section~\ref{sec:conclusion} concludes the report by summarizing the achieved results, discussing difficulties encountered during the project, and proposing possible future improvements.
+
+% section Introduction (end)
