@@ -9,9 +9,9 @@ module AM_tb;
 
   // ── Khởi tạo module cần test (WIDTH = 32) ───────
   address_mux uut (
-      .pc_addr(pc_addr),
-      .ir_addr(ir_addr),
-      .sel(sel),
+      .pc_addr (pc_addr),
+      .ir_addr (ir_addr),
+      .sel     (sel),
       .addr_out(addr_out)
   );
 
