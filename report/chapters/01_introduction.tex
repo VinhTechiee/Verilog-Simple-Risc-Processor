@@ -27,15 +27,15 @@ By completing these objectives, the project provides practical experience in dig
 
 \subsection{Tools and Environment}
 
-The main tool used in this project is Vivado Design Suite. Vivado provides an integrated development environment for designing, simulating, and verifying digital hardware systems described using Verilog HDL. In this project, Vivado is used to create Verilog source files, develop testbenches, run simulations, and analyze signal waveforms.
+The main tool used in this project is Vivado Design Suite. Vivado provides an integrated development environment for designing, simulating, and verifying digital hardware systems described using Verilog HDL. In this project, Vivado is used to create Verilog source files, develop testbenches, run simulations, and analyze signal waveforms. The source code is formatted, linted, and maintained using \texttt{Verible} and the SystemVerilog Language Server (\texttt{SVLS}) to ensure strict hardware coding conventions.
 
-Each CPU component is implemented as an independent Verilog module and verified using a corresponding testbench. After unit-level verification, the modules are connected together in a top-level design to perform system-level simulation. The waveform viewer in Vivado is used to observe the behavior of internal signals, such as the program counter value, memory address, instruction register output, accumulator value, ALU result, and controller signals.
+Each CPU component is implemented as an independent Verilog module and verified using a corresponding testbench. A custom \texttt{Python} script is implemented with Icarus Verilog (\texttt{iverilog}) serves as the primary compiler for rapid, iterative command-line simulations and unit testing. After unit-level verification, the modules are connected together in a top-level design to perform system-level simulation. The waveform viewer in Vivado is used to observe the behavior of internal signals, such as the program counter value, memory address, instruction register output, accumulator value, ALU result, and controller signals.
 
 Vivado is suitable for this project because it supports hierarchical hardware design, Verilog-based modeling, testbench simulation, and detailed waveform analysis. These features allow the design to be verified systematically before further hardware synthesis or implementation.
 
 \subsection{Main Features of the CPU}
 
-The designed CPU supports a small but representative set of instructions. Since the opcode field is 3 bits wide, the CPU can define up to eight instructions. These instructions include program control, arithmetic operations, logic operations, memory access, and conditional execution.
+The designed CPU supports a small but representative set of instructions. Since the opcode field is 3 bits wide, the CPU can define up to 8 instructions. These instructions include program control, arithmetic operations, logic operations, memory access, and conditional execution.
 
 The main features of the CPU are summarized as follows:
 

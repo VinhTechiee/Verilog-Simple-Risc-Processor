@@ -21,7 +21,7 @@ module ALU_tb;
   wire        zero;
 
   // ── DUT instantiation ────────────────────────────────
-  alu uut (
+  ALU uut (
       .inA    (inA),
       .inB    (inB),
       .opcode (opcode),

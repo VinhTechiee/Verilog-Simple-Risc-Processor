@@ -3,24 +3,30 @@ Based on the project specification, the RISC CPU designed in this assignment fea
 
 By analyzing the controller state table and the functional requirements of each block, the CPU's operation flow can be divided into two primary phases spanning 8 clock cycles: the Fetch Phase and the Execution Phase.
 
-% TODO: Insert table content:
 \begin{table}[H]
 	\caption{CPU Controller state and Control signals}
 	% \label{tab:controller_states}
 	\begin{center}
-		\begin{tabular}[c]{l|l}
-			\hline
-			\multicolumn{1}{c|}{\textbf{}} &
-			\multicolumn{1}{c}{\textbf{}}      \\
-			\hline
-			a                              & b \\
-			c                              & d \\
-
-			\hline
-		\end{tabular}
+		\resizebox{\textwidth}{!} {
+			\begin{tabular}[h]{|l|l|l|l|l|l|l|l|l|l|}
+				\hline
+				\multirow{2}{*}{\textbf{Outputs}} & \multicolumn{8}{c|}{\textbf{Phase}} & \multirow{2}{*}{\textbf{Notes}}                                                                                                                                        \\ \cline{2-9}
+				                                  & \texttt{INST\_ADDR}                 & \texttt{INST\_FETCH}            & \texttt{INST\_LOAD} & \texttt{IDLE}      & \texttt{OP\_ADDR}  & \texttt{OP\_FETCH} & \texttt{ALU\_OP} & \texttt{STORE}     &         \\ \hline{}
+				sel                               & 1                                   & 1                               & 1                   & 1                  & 0                  & 0                  & 0                & 0                  & ALU OP  \\ \cline{1-9}
+				rd                                & 0                                   & 1                               & 1                   & 1                  & 0                  & ALUOP              & ALUOP            & ALUOP              & = 1 if  \\ \cline{1-9}
+				ld\_ir                            & 0                                   & 0                               & 1                   & 1                  & 0                  & 0                  & 0                & 0                  & opcode  \\ \cline{1-9}
+				halt                              & 0                                   & 0                               & 0                   & 0                  & HALT               & 0                  & 0                & 0                  & is ADD, \\ \cline{1-9}
+				\multirow{3}{*}{inc\_pc}          & \multirow{3}{*}{0}                  & \multirow{3}{*}{0}              & \multirow{3}{*}{0}  & \multirow{3}{*}{0} & \multirow{3}{*}{1} & \multirow{3}{*}{0} & SKZ              & \multirow{3}{*}{0} & AND,    \\
+				                                  &                                     &                                 &                     &                    &                    &                    & \&\&             &                    & XOR or  \\
+				                                  &                                     &                                 &                     &                    &                    &                    & zero             &                    & LDA     \\ \cline{1-9}
+				ld\_ac                            & 0                                   & 0                               & 0                   & 0                  & 0                  & 0                  & 0                & ALUOP              &         \\ \cline{1-9}
+				ld\_pc                            & 0                                   & 0                               & 0                   & 0                  & 0                  & 0                  & JMP              & JMP                &         \\ \cline{1-9}
+				wr                                & 0                                   & 0                               & 0                   & 0                  & 0                  & 0                  & 0                & STO                &         \\ \cline{1-9}
+				data\_e                           & 0                                   & 0                               & 0                   & 0                  & 0                  & 0                  & STO              & STO                &         \\ \hline
+			\end{tabular}
+		}
 	\end{center}
 \end{table}
-
 
 \subsection{Fetch Phase}
 \begin{itemize}

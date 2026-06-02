@@ -67,7 +67,7 @@
 \newcommand{\@coursename}{Logic Design with HDL (CO1026)}
 \newcommand{\coursename}[1]{\renewcommand{\@coursename}{#1}}
 
-\newcommand{\@reporttype}{Lab Report}
+\newcommand{\@reporttype}{Assignment Report}
 \newcommand{\reporttype}[1]{\renewcommand{\@reporttype}{#1}}
 
 \renewcommand{\@title}{Designing a simple RISC Processor}

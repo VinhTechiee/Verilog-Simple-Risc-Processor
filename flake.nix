@@ -2,6 +2,7 @@
   description = "RISC (Devshell)";
 
   inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     devshell.url = "github:numtide/devshell";
   };
@@ -17,8 +18,8 @@
         { pkgs, ... }:
 
         {
-          devshells.default = {
-            name = "SystemVerilog";
+          devshells."risc" = {
+            name = "verilog-risc";
 
             packages = with pkgs; [
               # Verilog (Icarus compiler)
@@ -27,9 +28,15 @@
               iverilog
               surfer
 
-              # Python
+              # Python (Unit testing)
               pyright
               ruff
+
+              # LaTeX (Report)
+              texliveFull
+              bibtex-tidy
+              texlab
+              ghostscript
             ];
 
             devshell.motd = ''
