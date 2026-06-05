@@ -52,3 +52,12 @@ output.txt
 .direnv
 .envrc
 .svlint.toml
+
+# LaTeX auxiliary files
+*.synctex
+*.synctex_gz
+*.synctex.gz
+
+# Verilog simulation outputs
+*.out
+*.vcd

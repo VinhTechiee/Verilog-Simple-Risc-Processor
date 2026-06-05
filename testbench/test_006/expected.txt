@@ -1,24 +1,13 @@
---- TC1: System Reset ---
-TC1   | rst=1 | ld_ac=0 | data_in=0 | ac_out=0
---- TC2: Load Data (ALU Result) ---
-TC2.1 | rst=0 | ld_ac=1 | data_in=150 | ac_out=150
-TC2.2 | rst=0 | ld_ac=1 | data_in=200 | ac_out=200
---- TC3: Data Stability (Idle/Fetch) ---
-TC3.1 | rst=0 | ld_ac=0 | data_in=255 | ac_out=200
-TC3.2 | rst=0 | ld_ac=0 | data_in=255 | ac_out=200
---- TC4: Feedback to ALU ---
-TC4   | rst=0 | ld_ac=0 | data_in=255 | ac_out=200
---- TC5: Interaction with Data Bus ---
-TC5.1 | rst=0 | ld_ac=1 | data_in=100 | ac_out=100
-TC5.2 | rst=0 | ld_ac=0 | data_in=100 | ac_out=100
---- TC6: Reset Priority Check ---
-TC6.1 | rst=1 | ld_ac=1 | data_in=123 | ac_out=0
-TC6.2 | rst=0 | ld_ac=1 | data_in=123 | ac_out=123
---- TC7: Boundary Values ---
-TC7.1 | rst=0 | ld_ac=1 | data_in=255 | ac_out=255
-TC7.2 | rst=0 | ld_ac=1 | data_in=0 | ac_out=0
---- TC8: Rapid Toggling ---
-TC8.1 | rst=0 | ld_ac=1 | data_in=170 | ac_out=170
-TC8.2 | rst=0 | ld_ac=1 | data_in=85 | ac_out=85
-TC8.3 | rst=0 | ld_ac=0 | data_in=18 | ac_out=85
+--- TC1: Write Data ---
+TC1.1 | rd=0 | wr=1 | addr=10 | data=0xa5
+TC1.2 | rd=0 | wr=1 | addr=20 | data=0x12
+--- TC2: Read Data ---
+TC2.1 | rd=1 | wr=0 | addr=10 | data=0xa5
+TC2.2 | rd=1 | wr=0 | addr=20 | data=0x12
+--- TC3: High Impedance Check ---
+TC3   | rd=0 | wr=0 | addr=10 | data=0xzz
+--- TC4: Conflict Prevention ---
+TC4   | rd=1 | wr=1 | addr=10 | data=0xzz
+--- TC5: Data Persistence ---
+TC5   | rd=1 | wr=0 | addr=10 | data=0xa5
 --- DONE ---

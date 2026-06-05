@@ -2,23 +2,27 @@
 
 // ============================================================
 // PC_tb.v — Testbench for Program Counter (PC)
-// Covers 4 scenarios described in the project spec:
+// PC is 5-bit according to the assignment: 32 memory addresses.
+// Covers:
 //   TC1: Synchronous reset
-//   TC2: Increment (inc_pc)
-//   TC3: Load (ld_pc)
-//   TC4: Priority: rst > ld_pc > inc_pc
+//   TC2: Increment
+//   TC3: Load
+//   TC4: Priority rst > ld_pc > inc_pc
+//   TC5: Hold
+//   TC6: 5-bit wrap-around
+//   TC7: Jump & increment
+//   TC8: Reset from non-zero value
+//   TC9: Data noise immunity
 // ============================================================
 module PC_tb;
 
-  // ── Signals ─────────────────────────────────────────
-  reg         clk;
-  reg         rst;
-  reg         ld_pc;
-  reg         inc_pc;
-  reg  [31:0] data_in;
-  wire [31:0] pc_out;
+  reg       clk;
+  reg       rst;
+  reg       ld_pc;
+  reg       inc_pc;
+  reg [4:0] data_in;
+  wire [4:0] pc_out;
 
-  // ── DUT instantiation ────────────────────────────────
   PC uut (
       .clk    (clk),
       .rst    (rst),
@@ -28,36 +32,29 @@ module PC_tb;
       .pc_out (pc_out)
   );
 
-  // ── Clock: 10 ns period ──────────────────────────────
   initial clk = 0;
   always #5 clk = ~clk;
 
-  // ── Task: tick one clock and display state ───────────
   task tick;
     input [63:0] cycle;
     begin
       @(posedge clk);
       #1;
-      $display("cycle=%0d | rst=%b | ld_pc=%b | inc_pc=%b | data_in=%0d | pc_out=%0d", cycle, rst,
-               ld_pc, inc_pc, data_in, pc_out);
+      $display("cycle=%0d | rst=%b | ld_pc=%b | inc_pc=%b | data_in=%0d | pc_out=%0d",
+               cycle, rst, ld_pc, inc_pc, data_in, pc_out);
     end
   endtask
 
-  integer i;
-
   initial begin
-    // Init
     rst = 1;
     ld_pc = 0;
     inc_pc = 0;
-    data_in = 0;
+    data_in = 5'd0;
 
-    // ── TC1: Reset ───────────────────────────────────
     $display("--- TC1: Reset ---");
-    tick(1);  // rst=1 -> pc_out should be 0
+    tick(1);  // pc_out = 0
     rst = 0;
 
-    // ── TC2: Increment ───────────────────────────────
     $display("--- TC2: Increment ---");
     inc_pc = 1;
     tick(2);  // pc_out = 1
@@ -65,72 +62,62 @@ module PC_tb;
     tick(4);  // pc_out = 3
     inc_pc = 0;
 
-    // ── TC3: Load ────────────────────────────────────
     $display("--- TC3: Load ---");
-    data_in = 32'd20;
+    data_in = 5'd20;
     ld_pc   = 1;
     tick(5);  // pc_out = 20
     ld_pc = 0;
-    tick(6);  // pc_out = 20 (hold, no inc)
+    tick(6);  // hold 20
 
-    // ── TC4: Priority rst > ld_pc > inc_pc ───────────
-    $display("--- TC4: Priority ---");
-    data_in = 32'd99;
+    $display("--- TC4: Priority rst > ld_pc > inc_pc ---");
+    data_in = 5'd25;
     rst = 1;
     ld_pc = 1;
     inc_pc = 1;
-    tick(7);  // rst dominates -> pc_out = 0
+    tick(7);  // reset dominates -> 0
     rst = 0;
-    tick(8);  // ld_pc dominates over inc_pc -> pc_out = 99
+    tick(8);  // ld_pc dominates -> 25
     ld_pc = 0;
-    tick(9);  // inc_pc -> pc_out = 100
+    tick(9);  // inc_pc -> 26
     inc_pc = 0;
 
-    // -- TC5: Hold/Idle State -- [cite: 36]
     $display("--- TC5: Hold State ---");
-    rst = 0;
-    ld_pc = 0;
-    inc_pc = 0;
-    tick(10);  // pc_out stays 100
-    tick(11);  // pc_out stays 100
+    tick(10); // hold 26
+    tick(11); // hold 26
 
-    // -- TC6: Wrap-around (32-bit limit) -- [cite: 34]
-    $display("--- TC6: Wrap-around ---");
-    data_in = 32'hFFFFFFFF;  // Max 32-bit value
+    $display("--- TC6: 5-bit Wrap-around ---");
+    data_in = 5'd31;
     ld_pc   = 1;
-    tick(12);  // pc_out = 4294967295
+    tick(12); // pc_out = 31
     ld_pc  = 0;
     inc_pc = 1;
-    tick(13);  // pc_out wraps to 0
+    tick(13); // pc_out wraps to 0
     inc_pc = 0;
 
-    // -- TC7: Jump & Increment Sequence --
     $display("--- TC7: Jump & Increment ---");
-    data_in = 32'd1000;
+    data_in = 5'd10;
     ld_pc   = 1;
-    tick(14);  // pc_out = 1000
+    tick(14); // pc_out = 10
     ld_pc  = 0;
     inc_pc = 1;
-    tick(15);  // pc_out = 1001
-    tick(16);  // pc_out = 1002
+    tick(15); // 11
+    tick(16); // 12
     inc_pc = 0;
 
-    // -- TC8: Reset from Non-Zero Value --
-    $display("--- TC8: Reset from High Value ---");
-    data_in = 32'hABCDE000;
+    $display("--- TC8: Reset from Non-Zero Value ---");
+    data_in = 5'd30;
     ld_pc   = 1;
-    tick(17);  // pc_out = 2882396160
+    tick(17); // pc_out = 30
     ld_pc = 0;
-    rst   = 1;  // Reset
-    tick(18);  // pc_out must be 0
+    rst   = 1;
+    tick(18); // pc_out = 0
     rst = 0;
 
-    // -- TC9: Data Noise Immunity --
     $display("--- TC9: Data Noise Immunity ---");
     inc_pc = 1;
-    tick(19);  // pc_out = 1
-    data_in = 32'hFFFFFFFF;
-    tick(20);  // pc_out = 2 
+    tick(19); // pc_out = 1
+    data_in = 5'd31;
+    tick(20); // pc_out = 2, not affected by data_in
     inc_pc = 0;
 
     $display("--- DONE ---");
@@ -138,4 +125,3 @@ module PC_tb;
   end
 
 endmodule
-
