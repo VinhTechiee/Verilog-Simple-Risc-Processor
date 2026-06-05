@@ -7,24 +7,24 @@ cycle=4 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=0 | pc_out=3
 --- TC3: Load ---
 cycle=5 | rst=0 | ld_pc=1 | inc_pc=0 | data_in=20 | pc_out=20
 cycle=6 | rst=0 | ld_pc=0 | inc_pc=0 | data_in=20 | pc_out=20
---- TC4: Priority ---
-cycle=7 | rst=1 | ld_pc=1 | inc_pc=1 | data_in=99 | pc_out=0
-cycle=8 | rst=0 | ld_pc=1 | inc_pc=1 | data_in=99 | pc_out=99
-cycle=9 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=99 | pc_out=100
+--- TC4: Priority rst > ld_pc > inc_pc ---
+cycle=7 | rst=1 | ld_pc=1 | inc_pc=1 | data_in=25 | pc_out=0
+cycle=8 | rst=0 | ld_pc=1 | inc_pc=1 | data_in=25 | pc_out=25
+cycle=9 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=25 | pc_out=26
 --- TC5: Hold State ---
-cycle=10 | rst=0 | ld_pc=0 | inc_pc=0 | data_in=99 | pc_out=100
-cycle=11 | rst=0 | ld_pc=0 | inc_pc=0 | data_in=99 | pc_out=100
---- TC6: Wrap-around ---
-cycle=12 | rst=0 | ld_pc=1 | inc_pc=0 | data_in=4294967295 | pc_out=4294967295
-cycle=13 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=4294967295 | pc_out=0
+cycle=10 | rst=0 | ld_pc=0 | inc_pc=0 | data_in=25 | pc_out=26
+cycle=11 | rst=0 | ld_pc=0 | inc_pc=0 | data_in=25 | pc_out=26
+--- TC6: 5-bit Wrap-around ---
+cycle=12 | rst=0 | ld_pc=1 | inc_pc=0 | data_in=31 | pc_out=31
+cycle=13 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=31 | pc_out=0
 --- TC7: Jump & Increment ---
-cycle=14 | rst=0 | ld_pc=1 | inc_pc=0 | data_in=1000 | pc_out=1000
-cycle=15 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=1000 | pc_out=1001
-cycle=16 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=1000 | pc_out=1002
---- TC8: Reset from High Value ---
-cycle=17 | rst=0 | ld_pc=1 | inc_pc=0 | data_in=2882396160 | pc_out=2882396160
-cycle=18 | rst=1 | ld_pc=0 | inc_pc=0 | data_in=2882396160 | pc_out=0
+cycle=14 | rst=0 | ld_pc=1 | inc_pc=0 | data_in=10 | pc_out=10
+cycle=15 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=10 | pc_out=11
+cycle=16 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=10 | pc_out=12
+--- TC8: Reset from Non-Zero Value ---
+cycle=17 | rst=0 | ld_pc=1 | inc_pc=0 | data_in=30 | pc_out=30
+cycle=18 | rst=1 | ld_pc=0 | inc_pc=0 | data_in=30 | pc_out=0
 --- TC9: Data Noise Immunity ---
-cycle=19 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=2882396160 | pc_out=1
-cycle=20 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=4294967295 | pc_out=2
+cycle=19 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=30 | pc_out=1
+cycle=20 | rst=0 | ld_pc=0 | inc_pc=1 | data_in=31 | pc_out=2
 --- DONE ---

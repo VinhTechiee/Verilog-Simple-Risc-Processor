@@ -11,8 +11,6 @@
 //   TC6: Complex Bitwise Logic
 //   TC7: Zero Flag Independence
 // ============================================================
-`timescale 1ns/1ps
-
 module ALU_tb;
 
   reg  [7:0] inA;

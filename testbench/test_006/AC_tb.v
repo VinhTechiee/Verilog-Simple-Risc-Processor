@@ -18,8 +18,8 @@ module AC_tb;
   reg        clk;
   reg        rst;
   reg        ld_ac;
-  reg  [8:0] data_in;
-  wire [8:0] ac_out;
+  reg  [7:0] data_in;
+  wire [7:0] ac_out;
 
   // ── DUT instantiation ────────────────────────────────
   accumulator uut (

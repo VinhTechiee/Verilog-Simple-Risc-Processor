@@ -1,22 +1,22 @@
 --- TC1: Select pc_addr ---
-TC1   | sel=1 | pc_addr=1000 | ir_addr=2000 | addr_out=1000
+TC1   | sel=1 | pc_addr=10 | ir_addr=20 | addr_out=10
 --- TC2: Select ir_addr ---
-TC2   | sel=0 | pc_addr=1000 | ir_addr=2000 | addr_out=2000
+TC2   | sel=0 | pc_addr=10 | ir_addr=20 | addr_out=20
 --- TC3: Toggle sel ---
-TC3.1 | sel=1 | pc_addr=5555 | ir_addr=9999 | addr_out=5555
-TC3.2 | sel=0 | pc_addr=5555 | ir_addr=9999 | addr_out=9999
-TC3.3 | sel=1 | pc_addr=5555 | ir_addr=9999 | addr_out=5555
+TC3.1 | sel=1 | pc_addr=5 | ir_addr=25 | addr_out=5
+TC3.2 | sel=0 | pc_addr=5 | ir_addr=25 | addr_out=25
+TC3.3 | sel=1 | pc_addr=5 | ir_addr=25 | addr_out=5
 --- TC4: Parameter Override (WIDTH=16) ---
 TC4.1 | sel=1 | pc_addr_16=500 | ir_addr_16=600 | addr_out_16=500
 TC4.2 | sel=0 | pc_addr_16=500 | ir_addr_16=600 | addr_out_16=600
 --- TC5: Stability Check ---
-TC5.1 | sel=1 | pc_addr=7777 | ir_addr=1234 | addr_out=7777
-TC5.2 | sel=0 | pc_addr=5678 | ir_addr=8888 | addr_out=8888
+TC5.1 | sel=1 | pc_addr=7 | ir_addr=12 | addr_out=7
+TC5.2 | sel=0 | pc_addr=15 | ir_addr=31 | addr_out=31
 --- TC6: Edge Case Addresses ---
-TC6.1 | sel=1 | pc_addr=0 | ir_addr=4294967295 | addr_out=0
-TC6.2 | sel=0 | pc_addr=0 | ir_addr=4294967295 | addr_out=4294967295
+TC6.1 | sel=1 | pc_addr=0 | ir_addr=31 | addr_out=0
+TC6.2 | sel=0 | pc_addr=0 | ir_addr=31 | addr_out=31
 --- TC7: Async Response ---
-TC7.1 | sel=1 | pc_addr=1111 | ir_addr=4294967295 | addr_out=1111
-TC7.2 | sel=1 | pc_addr=2222 | ir_addr=4294967295 | addr_out=2222
-TC7.3 | sel=1 | pc_addr=3333 | ir_addr=4294967295 | addr_out=3333
+TC7.1 | sel=1 | pc_addr=11 | ir_addr=31 | addr_out=11
+TC7.2 | sel=1 | pc_addr=22 | ir_addr=31 | addr_out=22
+TC7.3 | sel=1 | pc_addr=31 | ir_addr=31 | addr_out=31
 --- DONE ---
