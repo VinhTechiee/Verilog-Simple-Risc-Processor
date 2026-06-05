@@ -1,3 +1,48 @@
 \section{Implementation}\label{sec:implementation} % (fold)
 
 % section Implementation (end)
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=Verilog,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    breaklines=true,
+    frame=single
+}
+\begin{lstlisting}[caption={ALU Module}]
+module ALU(
+    input [2:0] opcode,
+    input [7:0] inA,
+    input [7:0] inB,
+
+    output reg [7:0] alu_out,
+    output zero
+);
+
+    assign zero = (inA == 8'b00000000);
+
+    always @(*) begin
+        case(opcode)
+
+            3'b000: alu_out = inA;       // HLT
+            3'b001: alu_out = inA;       // SKZ
+            3'b010: alu_out = inA + inB; // ADD
+            3'b011: alu_out = inA & inB; // AND
+            3'b100: alu_out = inA ^ inB; // XOR
+            3'b101: alu_out = inB;       // LDA
+            3'b110: alu_out = inA;       // STO
+            3'b111: alu_out = inA;       // JMP
+
+            default: alu_out = 8'b00000000;
+
+        endcase
+    end
+
+endmodule
+\end{lstlisting}
