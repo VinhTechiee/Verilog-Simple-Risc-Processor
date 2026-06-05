@@ -61,3 +61,6 @@ output.txt
 # Verilog simulation outputs
 *.out
 *.vcd
+
+# LaTeX auxiliary files
+*.synctex*
