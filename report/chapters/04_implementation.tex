@@ -15,7 +15,7 @@
     captionpos=b
 }
 \begin{lstlisting}[caption={ALU Module}]
-module ALU(
+module ALU (
     input [2:0] opcode,
     input [7:0] inA,
     input [7:0] inB,
@@ -23,25 +23,39 @@ module ALU(
     output reg [7:0] alu_out,
     output zero
 );
+  always @(*) begin
+    case (opcode)
+      3'b000:  alu_out = inA;
+      3'b001:  alu_out = inA;
+      3'b010:  alu_out = inA + inB;
+      3'b011:  alu_out = inA & inB;
+      3'b100:  alu_out = inA ^ inB;
+      3'b101:  alu_out = inB;
+      3'b110:  alu_out = inA;
+      3'b111:  alu_out = inA;
+      default: alu_out = 8'b00000000;
+    endcase
+  end
+  assign zero = (inA == 8'b00000000);
 
-    assign zero = (inA == 8'b00000000);
+endmodule
+\end{lstlisting}
 
-    always @(*) begin
-        case(opcode)
+\begin{lstlisting}[caption={Accumulator Register Module}]
+module accumulator (
+    input       clk,
+    input       rst,
+    input [7:0] data_in,
+    input       ld_ac,
 
-            3'b000: alu_out = inA;       // HLT
-            3'b001: alu_out = inA;       // SKZ
-            3'b010: alu_out = inA + inB; // ADD
-            3'b011: alu_out = inA & inB; // AND
-            3'b100: alu_out = inA ^ inB; // XOR
-            3'b101: alu_out = inB;       // LDA
-            3'b110: alu_out = inA;       // STO
-            3'b111: alu_out = inA;       // JMP
+    output reg [7:0] ac_out
+);
 
-            default: alu_out = 8'b00000000;
-
-        endcase
-    end
+  always @(posedge clk) begin
+    if (rst) ac_out <= 8'b00000000;
+    else if (ld_ac) ac_out <= data_in;
+    else ac_out <= ac_out;
+  end
 
 endmodule
 \end{lstlisting}
