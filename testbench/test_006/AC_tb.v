@@ -51,7 +51,7 @@ module AC_tb;
     // Init
     rst = 1;
     ld_ac = 0;
-    data_in = 32'd0;
+    data_in = 8'd0;
     #1;
 
     // ── TC1: System Reset ────────────────────────────
@@ -62,60 +62,60 @@ module AC_tb;
     // ── TC2: Load Data (ALU Result) ──────────────────
     $display("--- TC2: Load Data (ALU Result) ---");
     ld_ac   = 1;
-    data_in = 32'd150;  // Assume result from ALU is 150
-    display_state("TC2.1");  // Expect: ac_out = 150 
+    data_in = 8'd150;  // Assume result from ALU is 150
+    display_state("TC2.1");  // Expect: ac_out = 150
 
-    data_in = 32'd300;
-    display_state("TC2.2");  // Expect: ac_out = 300
+    data_in = 8'd200;
+    display_state("TC2.2");  // Expect: ac_out = 200
 
     // ── TC3: Data Stability (Idle/Fetch) ─────────────
     $display("--- TC3: Data Stability (Idle/Fetch) ---");
     ld_ac   = 0;
     data_in = 32'd999;  // Change input data
-    display_state("TC3.1");  // Expect: ac_out holds 300 
-    display_state("TC3.2");  // Expect: ac_out holds 300
+    display_state("TC3.1");  // Expect: ac_out holds 200
+    display_state("TC3.2");  // Expect: ac_out holds 200
 
     // ── TC4: Feedback to ALU ─────────────────────────
     $display("--- TC4: Feedback to ALU ---");
     // This case verifies that ac_out (inA of ALU) is always ready
-    display_state("TC4  ");  // Expect: ac_out = 300 
+    display_state("TC4  ");  // Expect: ac_out = 200
 
     // ── TC5: Interaction with Data Bus ───────────────
     $display("--- TC5: Interaction with Data Bus ---");
     // Simulate loading a new value in preparation to write to Memory
     ld_ac   = 1;
-    data_in = 32'd500;
-    display_state("TC5.1");  // Expect: ac_out = 500 
+    data_in = 8'd100;
+    display_state("TC5.1");  // Expect: ac_out = 100
     ld_ac = 0;
     display_state("TC5.2");  // Value holds stable during write cycle
 
     // ── TC6: Reset Priority ──────────────────────────
     $display("--- TC6: Reset Priority Check ---");
     ld_ac   = 1;
-    data_in = 32'd4444;
+    data_in = 8'd123;
     rst     = 1;  // Assert Reset while load is active
     display_state("TC6.1");  // Expect: ac_out = 0 (Reset wins)
     rst = 0;
-    display_state("TC6.2");  // Expect: ac_out = 4444 (Normal load resumes)
+    display_state("TC6.2");  // Expect: ac_out = 123 (Normal load resumes)
 
     // ── TC7: Boundary Values ─────────────────────────
     $display("--- TC7: Boundary Values ---");
     ld_ac   = 1;
-    data_in = 32'hFFFF_FFFF;  // All 1s
+    data_in = 8'hFF;  // All 1s
     display_state("TC7.1");
-    data_in = 32'h0000_0000;  // All 0s
+    data_in = 8'h00;  // All 0s
     display_state("TC7.2");
 
     // ── TC8: Rapid Toggling ──────────────────────────
     $display("--- TC8: Rapid Toggling ---");
     ld_ac   = 1;
-    data_in = 32'hAAAA_AAAA;
+    data_in = 8'hAA;
     display_state("TC8.1");
-    data_in = 32'h5555_5555;
+    data_in = 8'h55;
     display_state("TC8.2");
     ld_ac   = 0;
-    data_in = 32'h1234_5678;
-    display_state("TC8.3");  // Expect: Holds 5555_5555
+    data_in = 8'h12;
+    display_state("TC8.3");  // Expect: Holds 8'h55
 
     $display("--- DONE ---");
     $finish;

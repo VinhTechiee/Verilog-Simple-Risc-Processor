@@ -14,11 +14,11 @@
 module ALU_tb;
 
   // ── Signals ─────────────────────────────────────────
-  reg  [31:0] inA;
-  reg  [31:0] inB;
-  reg  [ 2:0] opcode;
-  wire [31:0] alu_out;
-  wire        zero;
+  reg  [7:0] inA;
+  reg  [7:0] inB;
+  reg  [2:0] opcode;
+  wire [7:0] alu_out;
+  wire       zero;
 
   // ── DUT instantiation ────────────────────────────────
   ALU uut (
@@ -48,15 +48,15 @@ module ALU_tb;
 
     // ── TC1: Zero Status Flag ────────────────────────
     $display("--- TC1: Zero Status Flag ---");
-    inA = 32'd0;
+    inA = 8'd0;
     display_state("TC1.1");  // zero = 1
-    inA = 32'd50;
+    inA = 8'd50;
     display_state("TC1.2");  // zero = 0
 
     // ── TC2: Arithmetic & Logic ──────────────────────
     $display("--- TC2: Arithmetic & Logic ---");
-    inA = 32'd100;
-    inB = 32'd25;
+    inA = 8'd100;
+    inB = 8'd25;
 
     // ADD
     opcode = 3'b010;
@@ -76,8 +76,8 @@ module ALU_tb;
 
     // ── TC3: Transfer Operations ─────────────────────
     $display("--- TC3: Transfer Operations ---");
-    inA = 32'd999;
-    inB = 32'd555;
+    inA = 8'd999;
+    inB = 8'd555;
 
     // HLT (Output inA)
     opcode = 3'b000;
@@ -97,8 +97,8 @@ module ALU_tb;
 
     // ── TC4: Combinational Property ──────────────────
     $display("--- TC4: Combinational Property ---");
-    inA = 32'd10;
-    inB = 32'd20;
+    inA = 8'd10;
+    inB = 8'd20;
     opcode = 3'b010;  // ADD
 
     // Change occurs without a clock edge
@@ -109,36 +109,36 @@ module ALU_tb;
     // ── TC5: Boundary Cases ──────────────────────────
     $display("--- TC5: Boundary Cases ---");
     opcode = 3'b010;  // ADD
-    inA = 32'hFFFF_FFFF;
-    inB = 32'h0000_0001;
-    display_state("TC5.1");  // Expect: alu_out = 0 (32-bit overflow)
+    inA = 8'hFF;
+    inB = 8'h01;
+    display_state("TC5.1");  // Expect: alu_out = 0 (8-bit overflow)
 
-    inA = 32'h7FFF_FFFF;
-    inB = 32'h7FFF_FFFF;
+    inA = 8'h7F;
+    inB = 8'h7F;
     display_state("TC5.2");  // Adding two largest positive numbers
 
     // ── TC6: Complex Bitwise Logic ───────────────────
     $display("--- TC6: Complex Logic ---");
-    inA = 32'hAAAA_AAAA;  // 101010...
-    inB = 32'h5555_5555;  // 010101...
+    inA = 8'hAA;  // 10101010
+    inB = 8'h55;  // 01010101
 
     opcode = 3'b011;  // AND
     display_state("AND_C");  // Expect: 0
 
     opcode = 3'b100;  // XOR
-    display_state("XOR_C");  // Expect: FFFFFFFF 
+    display_state("XOR_C");  // Expect: FF
 
     // ── TC7: Zero Flag Independence ──────────────────
     $display("--- TC7: Zero Flag Independence ---");
     // Verify zero flag changes immediately when inA changes, regardless of opcode
     opcode = 3'b101;  // LDA (Output is inB)
-    inA = 32'd0;
-    inB = 32'd100;
+    inA = 8'd0;
+    inB = 8'd100;
     #1;
     $display("TC7.1 | zero=%b | alu_out=%0d", zero, alu_out);  // zero=1, out=100
 
-    inA = 32'd1;
-    inB = 32'd100;
+    inA = 8'd1;
+    inB = 8'd100;
     #1;
     $display("TC7.2 | zero=%b | alu_out=%0d", zero, alu_out);  // zero=0, out=100
 
