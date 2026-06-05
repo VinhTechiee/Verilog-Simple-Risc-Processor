@@ -4,10 +4,10 @@ TC1   | rst=1 | ld_ac=0 | data_in=0 | ac_out=0
 TC2.1 | rst=0 | ld_ac=1 | data_in=150 | ac_out=150
 TC2.2 | rst=0 | ld_ac=1 | data_in=200 | ac_out=200
 --- TC3: Data Stability (Idle/Fetch) ---
-TC3.1 | rst=0 | ld_ac=0 | data_in=999 | ac_out=200
-TC3.2 | rst=0 | ld_ac=0 | data_in=999 | ac_out=200
+TC3.1 | rst=0 | ld_ac=0 | data_in=255 | ac_out=200
+TC3.2 | rst=0 | ld_ac=0 | data_in=255 | ac_out=200
 --- TC4: Feedback to ALU ---
-TC4   | rst=0 | ld_ac=0 | data_in=999 | ac_out=200
+TC4   | rst=0 | ld_ac=0 | data_in=255 | ac_out=200
 --- TC5: Interaction with Data Bus ---
 TC5.1 | rst=0 | ld_ac=1 | data_in=100 | ac_out=100
 TC5.2 | rst=0 | ld_ac=0 | data_in=100 | ac_out=100

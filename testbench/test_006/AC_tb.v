@@ -15,11 +15,11 @@
 module AC_tb;
 
   // ── Signals ─────────────────────────────────────────
-  reg         clk;
-  reg         rst;
-  reg         ld_ac;
-  reg  [31:0] data_in;
-  wire [31:0] ac_out;
+  reg        clk;
+  reg        rst;
+  reg        ld_ac;
+  reg  [8:0] data_in;
+  wire [8:0] ac_out;
 
   // ── DUT instantiation ────────────────────────────────
   accumulator uut (
@@ -71,7 +71,7 @@ module AC_tb;
     // ── TC3: Data Stability (Idle/Fetch) ─────────────
     $display("--- TC3: Data Stability (Idle/Fetch) ---");
     ld_ac   = 0;
-    data_in = 32'd999;  // Change input data
+    data_in = 8'd255;  // Change input data
     display_state("TC3.1");  // Expect: ac_out holds 200
     display_state("TC3.2");  // Expect: ac_out holds 200
 

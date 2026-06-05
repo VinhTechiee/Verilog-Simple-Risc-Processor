@@ -1,5 +1,3 @@
-// WARN: Use 8-bit cell instead of 32-bit
-
 `timescale 1ns / 1ps
 
 // ============================================================

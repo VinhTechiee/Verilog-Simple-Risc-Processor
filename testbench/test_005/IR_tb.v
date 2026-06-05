@@ -9,7 +9,7 @@
 //   TC4: Extract Opcode and Operand
 //   TC5: Reset Priority
 //   TC6: Bus Noise Immunity
-//   TC7: High-bit Masking
+//   TC7: Instruction Decoding
 // ============================================================
 
 module IR_tb;
@@ -17,18 +17,18 @@ module IR_tb;
   reg clk;
   reg rst;
   reg ld_ir;
-  reg [31:0] data_in;
+  reg [7:0] data_in;
 
   wire [2:0] opcode;
   wire [4:0] operand;
 
   // ── DUT instantiation ────────────────────────────────
   instruction_register uut (
-      .clk(clk),
-      .rst(rst),
-      .ld_ir(ld_ir),
+      .clk    (clk),
+      .rst    (rst),
+      .ld_ir  (ld_ir),
       .data_in(data_in),
-      .opcode(opcode),
+      .opcode (opcode),
       .operand(operand)
   );
 
@@ -44,7 +44,7 @@ module IR_tb;
     begin
       @(posedge clk);
       #1;  // Wait after posedge for data to update
-      $display("%s | rst=%b | ld_ir=%b | data_in=0x%08X | opcode=%b | operand=%b", tc_name, rst,
+      $display("%s | rst=%b | ld_ir=%b | data_in=0x%02X | opcode=%b | operand=%b", tc_name, rst,
                ld_ir, data_in, opcode, operand);
     end
   endtask
@@ -53,7 +53,7 @@ module IR_tb;
     // Init
     rst = 1;
     ld_ir = 0;
-    data_in = 32'd0;
+    data_in = 8'd0;
     #1;
     // ── TC1: System Reset ────────────────────────────
     $display("--- TC1: System Reset ---");
@@ -66,18 +66,18 @@ module IR_tb;
     ld_ir   = 1;
     // Instruction 1: Opcode = 101 (LDA), Operand = 10101
     // Combined: [7:5] = 101, [4:0] = 10101 -> 1011_0101 = 0xB5
-    data_in = 32'h000000B5;
+    data_in = 8'hB5;
     display_state("TC2.1");  // Expect: opcode=101, operand=10101
 
     // Instruction 2: Opcode = 010 (ADD), Operand = 00011
     // Combined: [7:5] = 010, [4:0] = 00011 -> 0100_0011 = 0x43
-    data_in = 32'h00000043;
+    data_in = 8'h43;
     display_state("TC2.2");  // Expect: opcode=010, operand=00011
 
     // ── TC3: Hold Value ──────────────────────────────
     $display("--- TC3: Hold Value ---");
     ld_ir   = 0;  // De-assert load instruction signal
-    data_in = 32'hFFFFFFFF;  // Change data on bus
+    data_in = 8'hFF;  // Change data on bus
     display_state("TC3.1");  // Expect: opcode=010, operand=00011 (holds value)
     display_state("TC3.2");  // Expect: opcode=010, operand=00011
 
@@ -85,46 +85,43 @@ module IR_tb;
     $display("--- TC4: Extract Opcode and Operand ---");
     // Instruction 3: Opcode = 111 (JMP), Operand = 11111
     // Combined: [7:5] = 111, [4:0] = 11111 -> 1111_1111 = 0xFF
-    // Pad upper bits with arbitrary pattern (e.g., 0xDEADBE)
     ld_ir   = 1;
-    data_in = 32'hDEADBEFF;
-    display_state("TC4.1");  // Kỳ vọng: opcode=111, operand=11111
+    data_in = 8'hFF;
+    display_state("TC4.1");  // Expect: opcode=111, operand=11111
 
     // Instruction 4: Opcode = 000 (HLT), Operand = 00000
-    data_in = 32'h12345600;
+    data_in = 8'h00;
     display_state("TC4.2");  // Expect: opcode=000, operand=00000
 
     // ── TC5: Reset Priority ──────────────────────────
     $display("--- TC5: Reset Priority ---");
     ld_ir   = 1;
-    data_in = 32'hFFFFFFFF;  // Attempt to load all 1s
+    data_in = 8'hFF;  // Attempt to load all 1s
     rst     = 1;  // But assert reset simultaneously
     display_state("TC5.1");  // Expect: opcode=000, operand=00000
     rst = 0;
-    display_state(
-        "TC5.2");  // After reset is de-asserted, FFFF data is loaded (opcode=111, op=11111)
+    display_state("TC5.2");  // After reset is de-asserted, FF data is loaded (opcode=111, op=11111)
 
     // ── TC6: Bus Noise Immunity ──────────────────────
     // Change data_in continuously when ld_ir = 0
     $display("--- TC6: Bus Noise Immunity ---");
     ld_ir   = 0;
-    data_in = 32'hAAAAAAAA;
+    data_in = 8'hAA;
     #2;
-    data_in = 32'h55555555;
+    data_in = 8'h55;
     #2;
-    data_in = 32'h12345678;
+    data_in = 8'h78;
     display_state("TC6.1");  // Expect: holds value from TC5.2 (111, 11111)
 
-    // ── TC7: High-bit Masking ────────────────────────
-    // Ensure only bits [7:0] affect output, others are ignored
-    $display("--- TC7: High-bit Masking ---");
+    // ── TC7: Instruction Decoding ────────────────────
+    $display("--- TC7: Instruction Decoding ---");
     ld_ir   = 1;
-    // Load ADD (010) Operand (01010) with high bits 0xABCDEF
-    data_in = 32'hABCDEF4A;  // 4A = 010_01010
+    // Load ADD (010) Operand (01010)
+    data_in = 8'h4A;  // 4A = 010_01010
     display_state("TC7.1");  // Expect: opcode=010, operand=01010
 
-    // Load LDA (101) Operand (11111) with high bits 0x000000
-    data_in = 32'h000000BF;  // BF = 101_11111
+    // Load LDA (101) Operand (11111)
+    data_in = 8'hBF;  // BF = 101_11111
     display_state("TC7.2");  // Expect: opcode=101, operand=11111
 
     $display("--- DONE ---");
