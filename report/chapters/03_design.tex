@@ -1,3 +1,173 @@
 \section{Design}\label{sec:design} % (fold)
+\subsection{Top-level System Architecture}
+\begin{figure}[H]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tikzpicture}[
+			>={Latex[scale=1.2]},
+			block/.style={draw=black, thick, minimum width=2.4cm, minimum height=1.5cm, align=center, font=\sffamily\small},
+			ctrlblock/.style={draw=black, thick, minimum width=14cm, minimum height=1.2cm, align=center, font=\sffamily\small\bfseries},
+			bus/.style={thick, ->},
+			bidir/.style={thick, <->},
+			ctrlsignal/.style={dashed, ->, font=\sffamily\scriptsize},
+			mainbus/.style={line width=3pt, draw=black!60}
+			]
 
+			\node[ctrlblock] (ctrl) at (0, 5) {Controller Unit};
+
+			\node[block] (pc)  at (-5, 2)  {Program\\Counter (PC)};
+			\node[block] (ir)  at (0, 2)   {Instruction\\Register (IR)};
+
+			\node[block] (mux) at (-5, -1) {Address\\MUX};
+			\node[block] (mem) at (-5, -4) {Memory\\($32 \times 8$)};
+
+			\node[block] (alu) at (3.5, -1) {ALU};
+			\node[block] (ac)  at (3.5, -4) {Accumulator\\(AC)};
+
+			\draw[mainbus] (-2.0, 0.5) -- (5.5, 0.5) node[pos=0.975, above=4pt, font=\sffamily\scriptsize, text=black] {8-bit Data Bus};
+
+			\draw[bus] (-5.5, 1.25) -- node[above=2pt, pos=0.5, sloped] {\scriptsize{pc\_addr}} (-5.5, -0.25);
+
+			\draw[bus] (-0.6, 1.25) -- (-0.6, 1.0) -- node[above] {ir\_addr[4:0]} (-4.5, 1.0) -- (-4.5, -0.25);
+
+			\draw[bus] (-5, -1.75) -- node[left] {addr[4:0]} (-5, -3.25);
+			\draw[bidir] (-3.8, -4) -- node[below] {data} (-2, -4) -- (-2, 0.5);
+
+			\draw[bus] (0, 0.5) -- node[right=2pt] {data\_in} (0, 1.25);
+			\draw[bus] (1.2, 2) -- node[above] {opcode} (4, 2) -- (4, -0.25);
+			\draw[bus] (3, 0.5) -- node[left=2pt] {inB} (3, -0.25);
+
+			\draw[bus] (3.5, -1.75) -- node[left=2pt] {alu\_out} (3.5, -3.25);
+			\draw[bus] (2.3, -4) -- (1.5, -4) -- node[left=2pt] {inA} (1.5, -1) -- (2.3, -1);
+			\draw[bus] (4.7, -3.8) -- (5.5, -3.8) -- node[right=2pt, pos=0.2, align=left, sloped] {ac\_out\\(STO)} (5.5, 0.5);
+
+			\draw[ctrlsignal] (-5, 4.4) -- node[right=2pt] {inc\_pc, ld\_pc} (-5, 2.75);
+			\draw[ctrlsignal] (-0.5, 4.4) -- node[left=2pt] {ld\_ir} (-0.5, 2.75);
+
+			\draw[ctrlsignal] (-6.5, 4.4) -- node[right=2pt, pos=0.75] {sel} (-6.5, -1) -- (-6.2, -1);
+			\draw[ctrlsignal] (-7, 4.4) -- node[left=2pt, pos=0.2] {rd, wr} (-7, -4) -- (-6.2, -4);
+			\draw[ctrlsignal] (6.5, 4.4) -- node[right=2pt, pos=0.4] {ld\_ac} (6.5, -4.2) -- (4.7, -4.2);
+
+			\draw[bus] (0.5, 2.75) -- node[right=2pt] {opcode} (0.5, 4.4);
+
+			\draw[bus] (4.7, -1) -- (7.7, -1) -- node[right=2pt] {zero} (7.7, 5) -- (ctrl.east);
+
+			\fill[black!60] (-2, 0.5)  circle (3pt);
+			\fill[black!60] (0, 0.5)   circle (3pt);
+			\fill[black!60] (3, 0.5)   circle (3pt);
+			\fill[black!60] (5.5, 0.5) circle (3pt);
+
+		\end{tikzpicture}
+	}
+	\caption{Top-Level Architecture of the RISC Processor}
+	\label{fig:top_level_arch}
+\end{figure}
+
+\subsection{Functional Blocks}
+\subsubsection{Program Counter (PC)}
+\begin{itemize}
+	\item \textbf{Function:}
+	      \begin{itemize}
+		      \item The counter is a crucial component used to track and count program instructions.
+		      \item It can also be utilized to count program states.
+		      \item The counter operates synchronously on the rising edge of the \texttt{clk} signal.
+		      \item The \texttt{reset} signal is active-high, clearing the counter back to 0.
+		      \item The counter has a width of 32 bits.
+		      \item It features a load function to force an arbitrary address into the counter. If not loading, the counter increments normally.
+	      \end{itemize}
+	\item \textbf{Inputs:} \texttt{clk}, \texttt{rst}, \texttt{ld\_pc}, \texttt{inc\_pc}, \texttt{data\_in}.
+	\item \textbf{Outputs:} \texttt{pc\_out}.
+\end{itemize}
+
+\subsubsection{Address Multiplexer (Address MUX)}
+\begin{itemize}
+	\item \textbf{Function:}
+	      \begin{itemize}
+		      \item The Address MUX selects between the instruction address (during the instruction fetch phase) and the operand address (during the instruction execution phase).
+		      \item The MUX has a default data width of 32 bits.
+		      \item The width is parameterized to allow for easy modification if necessary.
+	      \end{itemize}
+	\item \textbf{Inputs:} \texttt{pc\_addr}, \texttt{ir\_addr}, \texttt{sel}.
+	\item \textbf{Outputs:} \texttt{addr\_out}.
+\end{itemize}
+
+\subsubsection{Arithmetic Logic Unit (ALU)}
+\begin{itemize}
+	\item \textbf{Function:}
+	      \begin{itemize}
+		      \item The ALU executes arithmetic and logical operations. The specific operation performed depends on the instruction's opcode.
+		      \item The ALU executes 8 distinct operations on 32-bit operands (\texttt{inA} and \texttt{inB}).
+		      \item It produces a 32-bit output and a 1-bit asynchronous \texttt{zero} flag.
+		      \item The \texttt{zero} flag indicates whether the input \texttt{inA} is equal to 0.
+	      \end{itemize}
+	\item \textbf{Inputs:} \texttt{inA}, \texttt{inB}, \texttt{opcode}.
+	\item \textbf{Outputs:} \texttt{alu\_out}, \texttt{zero}.
+\end{itemize}
+
+\begin{table}[H]
+	\centering
+	\caption{ALU Opcode Lookup Table}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{|c|c|p{8.5cm}|c|}
+		\hline
+		\textbf{Opcode} & \textbf{Code} & \textbf{Operation Description}                                                                                               & \textbf{Output}      \\ \hline
+		\texttt{HLT}    & 000           & Halts program execution.                                                                                                     & \texttt{inA}         \\ \hline
+		\texttt{SKZ}    & 001           & Checks if the ALU result is equal to 0. If zero, it skips the next instruction; otherwise, execution continues normally.     & \texttt{inA}         \\ \hline
+		\texttt{ADD}    & 010           & Adds the value in the Accumulator to the memory value at the instruction's address, returning the result to the Accumulator. & \texttt{inA + inB}   \\ \hline
+		\texttt{AND}    & 011           & Performs a bitwise AND on the Accumulator value and the memory value at the instruction's address.                           & \texttt{inA AND inB} \\ \hline
+		\texttt{XOR}    & 100           & Performs a bitwise XOR on the Accumulator value and the memory value at the instruction's address.                           & \texttt{inA XOR inB} \\ \hline
+		\texttt{LDA}    & 101           & Reads the value from the address in the instruction and loads it into the Accumulator.                                       & \texttt{inB}         \\ \hline
+		\texttt{STO}    & 110           & Writes the Accumulator's data to the memory address specified in the instruction.                                            & \texttt{inA}         \\ \hline
+		\texttt{JMP}    & 111           & Unconditional jump; jumps to the target address in the instruction and continues execution.                                  & \texttt{inA}         \\ \hline
+	\end{tabular}
+\end{table}
+
+\subsubsection{Controller Unit}
+\begin{itemize}
+	\item \textbf{Function:} The central finite state machine that decodes instructions and dictates the operation of all other blocks via control signals.
+	\item \textbf{Inputs:} \texttt{clk}, \texttt{rst}, \texttt{opcode}, \texttt{zero}.
+	\item \textbf{Outputs:} \texttt{sel}, \texttt{rd}, \texttt{ld\_ir}, \texttt{halt}, \texttt{inc\_pc}, \texttt{ld\_ac}, \texttt{ld\_pc}, \texttt{wr}, \texttt{data\_e}.
+\end{itemize}
+
+\begin{table}[H]
+	\centering
+	\caption{Control Execution Scenarios by Opcode}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Instruction Scenario} & \textbf{Active States}               & \textbf{Expected Control Signals}                              \\ \hline
+		\texttt{HLT} (000)            & \texttt{OP\_ADDR}                    & \texttt{halt = 1}                                              \\ \hline
+		\texttt{ADD, AND, XOR, LDA}   & \texttt{OP\_FETCH} to \texttt{STORE} & \texttt{rd = 1}, \texttt{ld\_ac = 1} (at \texttt{STORE} phase) \\ \hline
+		\texttt{STO} (110)            & \texttt{ALU\_OP}, \texttt{STORE}     & \texttt{wr = 1}, \texttt{data\_e = 1}                          \\ \hline
+		\texttt{JMP} (111)            & \texttt{ALU\_OP}, \texttt{STORE}     & \texttt{ld\_pc = 1}                                            \\ \hline
+	\end{tabular}
+\end{table}
+
+\subsubsection{Instruction Register (IR)}
+\begin{itemize}
+	\item \textbf{Function:} As described in the reference documentation, it captures and holds the current instruction fetched from memory, splitting it into an opcode and an operand.
+	\item \textbf{Inputs:} \texttt{clk}, \texttt{rst}, \texttt{ld\_ir}, \texttt{data\_in}.
+	\item \textbf{Outputs:} \texttt{opcode}, \texttt{operand}.
+\end{itemize}
+
+\subsubsection{Accumulator Register (AC)}
+\begin{itemize}
+	\item \textbf{Function:} As described in the reference documentation, it acts as the primary working register for ALU operations and data transfers.
+	\item \textbf{Inputs:} \texttt{clk}, \texttt{rst}, \texttt{ld\_ac}, \texttt{data\_in}.
+	\item \textbf{Outputs:} \texttt{ac\_out}.
+\end{itemize}
+
+\subsubsection{Memory}
+\begin{itemize}
+	\item \textbf{Function:}
+	      \begin{itemize}
+		      \item The memory module stores both instructions and data.
+		      \item It is designed to separate read and write functions while utilizing a single bidirectional data port. Reading and writing cannot occur simultaneously.
+		      \item Configured for 32-bit addresses and 32-bit data.
+		      \item Uses 1-bit control signals to enable reading (\texttt{rd}) and writing (\texttt{wr}).
+		      \item Memory operations are synchronized to the rising edge of the \texttt{clk} signal.
+	      \end{itemize}
+	\item \textbf{Inputs:} \texttt{clk}, \texttt{rd}, \texttt{wr}, \texttt{addr}.
+	\item \textbf{Inout:} \texttt{data}.
+\end{itemize}
 % section Design (end)

@@ -15,4 +15,5 @@ module accumulator (
     else if (ld_ac) ac_out <= data_in;
     else ac_out <= ac_out;
   end
+
 endmodule

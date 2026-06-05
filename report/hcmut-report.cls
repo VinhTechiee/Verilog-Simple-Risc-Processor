@@ -28,7 +28,7 @@
 \RequirePackage{caption, float}
 \RequirePackage{array, longtable, multicol, multirow, tabularx}
 \RequirePackage{tikz, pgfplots}
-\usetikzlibrary{automata, positioning, arrows, calc, backgrounds}
+\usetikzlibrary{positioning, arrows.meta, calc, backgrounds, shapes.geometric}
 \RequirePackage{booktabs}
 \pgfplotsset{compat=newest}
 
