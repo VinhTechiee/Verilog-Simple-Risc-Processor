@@ -4,6 +4,7 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions\relax
 \LoadClass[a4paper]{article}
+\DeclareUnicodeCharacter{2500}{-}
 
 % Formatting
 \RequirePackage[fontsize = 12pt]{scrextend}

@@ -3,12 +3,11 @@
 // 3. TODO: Define operations for HLT, SKZ, ADD, AND, XOR, LDA, STO, JMP instructions
 // 4. TODO: Assign the result to alu_out
 module ALU (
-    input [2:0] opcode,
-    input [7:0] inA,
-    input [7:0] inB,
-
+    input      [2:0] opcode,
+    input      [7:0] inA,
+    input      [7:0] inB,
     output reg [7:0] alu_out,
-    output zero
+    output           zero
 );
   always @(*) begin
     case (opcode)

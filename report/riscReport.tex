@@ -11,16 +11,16 @@
 \AtBeginDocument{\counterwithin{lstlisting}{section}}
 
 %%% Custom commands
-\newcommand{\inputsrccode}[3][]{
+\newcommand{\inputsrccode}[2][]{
   \texttt{\detokenize{#2}}:\nopagebreak%
   \begin{mdframed}[backgroundcolor=gray!10]%
       \inputminted[#1]{verilog}{../src/#2}%
   \end{mdframed}%
 }
-\newcommand{\inputtestbench}[3][]{
+\newcommand{\inputtestbench}[2][]{
   \texttt{\detokenize{#2}}:\nopagebreak%
   \begin{mdframed}[backgroundcolor=gray!10]%
-      \inputminted[#1]{verilog}{../testbench/#3}%
+      \inputminted[#1]{verilog}{../testbench/#2}%
   \end{mdframed}%
 }
 \newcommand{\inputfigure}[3][0.95]{
