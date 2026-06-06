@@ -23,12 +23,18 @@
       \inputminted[#1]{verilog}{../testbench/#2}%
   \end{mdframed}%
 }
-\newcommand{\inputfigure}[3][0.95]{
+\newcommand{\inputschematic}[2][0.95]{
+  \begin{figure}[H]%
+    \begin{center}%
+      \includegraphics[width=#1\textwidth]{figures/Schematic_#2.jpg}%
+    \end{center}%
+  \end{figure}%
+}
+\newcommand{\inputwaveform}[2][0.95]{
 \begin{figure}[H]%
   \begin{center}%
-    \includegraphics[width=#1\textwidth]{figures/#2}%
+    \includegraphics[width=#1\textwidth]{figures/Waveform_#2.jpg}%
   \end{center}%
-  \caption{#3}%
 \end{figure}%
 }
 
@@ -54,11 +60,10 @@
 \raggedbottom
 
 \input{chapters/01_introduction.tex}
-\input{chapters/02_overview.tex}
-\input{chapters/03_design.tex}
-\input{chapters/04_implementation.tex}
-\input{chapters/05_evaluation.tex}
-\input{chapters/06_conclusion.tex}
+\input{chapters/02_design.tex}
+\input{chapters/03_implementation.tex}
+\input{chapters/04_evaluation.tex}
+\input{chapters/05_conclusion.tex}
 
 
 % \begin{noindent}
