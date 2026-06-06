@@ -1,4 +1,4 @@
-\section{Design}\label{sec:design} % (fold)
+\section{System Design Approach}\label{sec:system_design_approach} % (fold)
 \subsection{Top-level System Architecture}
 \begin{figure}[H]
 	\centering
@@ -64,7 +64,7 @@
 \end{figure}
 
 \subsection{Functional Blocks}
-\subsubsection{Program Counter (PC)}
+\subsubsection*{Program Counter (PC)}
 \begin{itemize}
 	\item \textbf{Function:}
 	      \begin{itemize}
@@ -79,7 +79,7 @@
 	\item \textbf{Outputs:} \texttt{pc\_out}.
 \end{itemize}
 
-\subsubsection{Address Multiplexer (Address MUX)}
+\subsubsection*{Address Multiplexer (Address MUX)}
 \begin{itemize}
 	\item \textbf{Function:}
 	      \begin{itemize}
@@ -91,7 +91,7 @@
 	\item \textbf{Outputs:} \texttt{addr\_out}.
 \end{itemize}
 
-\subsubsection{Arithmetic Logic Unit (ALU)}
+\subsubsection*{Arithmetic Logic Unit (ALU)}
 \begin{itemize}
 	\item \textbf{Function:}
 	      \begin{itemize}
@@ -122,7 +122,7 @@
 	\end{tabular}
 \end{table}
 
-\subsubsection{Controller Unit}
+\subsubsection*{Controller Unit}
 \begin{itemize}
 	\item \textbf{Function:} The central finite state machine that decodes instructions and dictates the operation of all other blocks via control signals.
 	\item \textbf{Inputs:} \texttt{clk}, \texttt{rst}, \texttt{opcode}, \texttt{zero}.
@@ -143,21 +143,21 @@
 	\end{tabular}
 \end{table}
 
-\subsubsection{Instruction Register (IR)}
+\subsubsection*{Instruction Register (IR)}
 \begin{itemize}
 	\item \textbf{Function:} As described in the reference documentation, it captures and holds the current instruction fetched from memory, splitting it into an opcode and an operand.
 	\item \textbf{Inputs:} \texttt{clk}, \texttt{rst}, \texttt{ld\_ir}, \texttt{data\_in}.
 	\item \textbf{Outputs:} \texttt{opcode}, \texttt{operand}.
 \end{itemize}
 
-\subsubsection{Accumulator Register (AC)}
+\subsubsection*{Accumulator Register (AC)}
 \begin{itemize}
 	\item \textbf{Function:} As described in the reference documentation, it acts as the primary working register for ALU operations and data transfers.
 	\item \textbf{Inputs:} \texttt{clk}, \texttt{rst}, \texttt{ld\_ac}, \texttt{data\_in}.
 	\item \textbf{Outputs:} \texttt{ac\_out}.
 \end{itemize}
 
-\subsubsection{Memory}
+\subsubsection*{Memory}
 \begin{itemize}
 	\item \textbf{Function:}
 	      \begin{itemize}
@@ -170,4 +170,4 @@
 	\item \textbf{Inputs:} \texttt{clk}, \texttt{rd}, \texttt{wr}, \texttt{addr}.
 	\item \textbf{Inout:} \texttt{data}.
 \end{itemize}
-% section Design (end)
+% section system_design_approach (end)

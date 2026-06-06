@@ -4,11 +4,6 @@ module CPU (
     output halt
 );
 
-
-  // =========================
-  // Internal wires
-  // =========================
-
   // Control signals
   wire sel;
   wire rd;
@@ -32,17 +27,8 @@ module CPU (
 
   wire zero;
 
-  // =========================
-  // Data bus tri-state logic
-  // =========================
-  // For STO instruction:
-  // CPU drives AC value onto data_bus when data_e = 1.
-  // Otherwise, CPU releases the bus and Memory can drive it during read.
   assign data_bus = (data_e && !rd) ? ac_out : 8'hZZ;
 
-  // =========================
-  // Program Counter
-  // =========================
   PC u_pc (
       .clk    (clk),
       .rst    (rst),
@@ -52,11 +38,6 @@ module CPU (
       .pc_out (pc_out)
   );
 
-  // =========================
-  // Address MUX
-  // sel = 1: use PC address for instruction fetch
-  // sel = 0: use operand address for data access
-  // =========================
   address_mux #(
       .WIDTH(5)
   ) u_address_mux (
@@ -66,9 +47,6 @@ module CPU (
       .addr_out(mem_addr)
   );
 
-  // =========================
-  // Memory
-  // =========================
   Memory u_memory (
       .clk (clk),
       .rd  (rd),
@@ -77,12 +55,6 @@ module CPU (
       .data(data_bus)
   );
 
-  // =========================
-  // Instruction Register
-  // instruction format:
-  // [7:5] opcode
-  // [4:0] operand address
-  // =========================
   instruction_register u_ir (
       .clk    (clk),
       .rst    (rst),
@@ -92,9 +64,6 @@ module CPU (
       .operand(operand)
   );
 
-  // =========================
-  // Accumulator
-  // =========================
   accumulator u_ac (
       .clk    (clk),
       .rst    (rst),
@@ -103,11 +72,6 @@ module CPU (
       .ac_out (ac_out)
   );
 
-  // =========================
-  // ALU
-  // inA = Accumulator
-  // inB = Memory data bus
-  // =========================
   ALU u_alu (
       .opcode (opcode),
       .inA    (ac_out),
@@ -116,15 +80,11 @@ module CPU (
       .zero   (zero)
   );
 
-  // =========================
-  // Controller
-  // =========================
   controller u_controller (
       .clk   (clk),
       .rst   (rst),
       .opcode(opcode),
       .zero  (zero),
-
       .sel   (sel),
       .rd    (rd),
       .ld_ir (ld_ir),
