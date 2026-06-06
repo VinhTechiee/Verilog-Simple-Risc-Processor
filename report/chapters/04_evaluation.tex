@@ -57,3 +57,47 @@
 % \inputwaveform[0.95]{CPU}
 
 % testing_simulation_and_validation (end)
+
+\subsection{Resource, Timing, and Power Evaluation}
+
+In addition to functional verification, the CPU was evaluated at the RTL level in terms of resource usage, timing behavior, and expected power characteristics. The design follows a simple accumulator-based RISC architecture, so the datapath remains compact and includes only the required modules: the Program Counter, Address Multiplexer, Memory, Instruction Register, Accumulator Register, ALU, and Controller.
+
+Resource usage is mainly determined by the storage elements and combinational logic in the RTL design. The processor uses a 5-bit Program Counter, an 8-bit Instruction Register, an 8-bit Accumulator Register, a 3-bit controller state register, and a \(32 \times 8\)-bit memory. The main combinational blocks are the Address MUX, the ALU, and the controller output logic.
+
+Timing behavior is defined by the controller FSM. The controller executes instructions through eight states: \texttt{INST\_ADDR}, \texttt{INST\_FETCH}, \texttt{INST\_LOAD}, \texttt{IDLE}, \texttt{OP\_ADDR}, \texttt{OP\_FETCH}, \texttt{ALU\_OP}, and \texttt{STORE}. Therefore, a normal instruction requires eight clock cycles to complete. With the 10 ns clock period used in simulation, the execution time of a normal instruction is 80 ns. Control-flow instructions such as \texttt{SKZ} and \texttt{JMP} may update the Program Counter, while \texttt{HLT} stops the processor when the halt condition is reached.
+
+\begin{table}[htbp]
+\centering
+\caption{Resource, Timing, and Power Evaluation}
+\label{tab:resource_timing_power}
+\small
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} p{0.23\textwidth} X@{}}
+\toprule
+\textbf{Metric} & \textbf{Evaluation} & \textbf{Description} \\
+\midrule
+Instruction width & 8 bits & Includes a 3-bit opcode and a 5-bit operand. \\
+
+Memory organization & \(32 \times 8\) bits & Provides 32 memory locations, each storing 8 bits of data. \\
+
+Datapath width & 8 bits & Used by the ALU, Accumulator, and shared data bus. \\
+
+Address width & 5 bits & Supports addressing of 32 memory locations. \\
+
+Controller states & 8 states & Forms one complete instruction cycle under normal execution. \\
+
+Simulation clock period & 10 ns & Clock period used in the Verilog testbenches. \\
+
+Normal instruction time & 80 ns & Calculated from eight clock cycles with a 10 ns clock period. \\
+
+Sequential resources & PC, IR, AC, FSM, Memory & Store the program address, instruction, accumulator value, control state, and memory contents. \\
+
+Combinational resources & ALU, Address MUX, control logic & Perform arithmetic and logic operations, address selection, and control signal generation. \\
+
+Power evaluation & RTL-level qualitative assessment & Expected to be low due to the small datapath, limited memory size, and simple control logic. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+From the evaluation, the CPU satisfies the expected timing behavior of the specified multi-cycle controller. The design completes each normal instruction in eight clock cycles and correctly updates the Program Counter for control-flow instructions. Because the datapath is only 8 bits wide and the memory contains only 32 locations, the hardware complexity remains low. Exact post-synthesis resource utilization and power consumption depend on the target device and synthesis settings; therefore, this report provides an RTL-level evaluation based on the implemented architecture and simulation results.

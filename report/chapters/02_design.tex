@@ -209,10 +209,10 @@ By analyzing the controller state table and the functional requirements of each 
 	\item \textbf{Function:}
 	      \begin{itemize}
 		      \item The memory module stores both instructions and data.
-		      \item It is designed to separate read and write functions while utilizing a single bidirectional data port. Reading and writing cannot occur simultaneously.
-		      \item Configured for 5-bit addresses and 32-bit data.
-		      \item Uses 1-bit control signals to enable reading (\texttt{rd}) and writing (\texttt{wr}).
-		      \item Memory operations are synchronized to the rising edge of the \texttt{clk} signal.
+		      \item It is organized as a \(32 \times 8\)-bit memory, where the address width is 5 bits and each memory location stores 8 bits of data.
+		      \item The memory uses a single bidirectional data bus, so read and write operations cannot occur at the same time.
+		      \item The \texttt{rd} and \texttt{wr} control signals are used to enable memory read and memory write operations, respectively.
+		      \item All memory operations are synchronized with the positive edge of the \texttt{clk} signal.
 	      \end{itemize}
 	\item \textbf{Inputs:} \texttt{clk}, \texttt{rd}, \texttt{wr}, \texttt{addr}.
 	\item \textbf{Inout:} \texttt{data}.
