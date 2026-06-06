@@ -67,14 +67,15 @@ module ALU (
 );
   always @(*) begin
     case (opcode)
-      3'b000:  alu_out = inA;
-      3'b001:  alu_out = inA;
-      3'b010:  alu_out = inA + inB;
-      3'b011:  alu_out = inA & inB;
-      3'b100:  alu_out = inA ^ inB;
-      3'b101:  alu_out = inB;
-      3'b110:  alu_out = inA;
-      3'b111:  alu_out = inA;
+      3'b000:  alu_out = inA;         //HLT
+      3'b001:  alu_out = inA;         //SKZ
+      3'b010:  alu_out = inA + inB;   //ADD
+      3'b011:  alu_out = inA & inB;   //AND
+      3'b100:  alu_out = inA ^ inB;   //XOR
+      3'b101:  alu_out = inB;         //LDA
+      3'b110:  alu_out = inA;         //STO
+      3'b111:  alu_out = inA;         //JMP
+      
       default: alu_out = 8'b00000000;
     endcase
   end
