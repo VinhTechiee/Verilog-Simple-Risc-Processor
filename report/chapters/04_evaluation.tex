@@ -54,7 +54,8 @@
 \inputtestbench{test_009/CPU2_tb.v}
 
 \textbf{Waveform:}
-% \inputwaveform[0.95]{CPU}
+\inputwaveform[0.95]{CPU}
+\inputwaveform[0.95]{CPU2}
 
 % testing_simulation_and_validation (end)
 
@@ -67,36 +68,36 @@ Resource usage is mainly determined by the storage elements and combinational lo
 Timing behavior is defined by the controller FSM. The controller executes instructions through eight states: \texttt{INST\_ADDR}, \texttt{INST\_FETCH}, \texttt{INST\_LOAD}, \texttt{IDLE}, \texttt{OP\_ADDR}, \texttt{OP\_FETCH}, \texttt{ALU\_OP}, and \texttt{STORE}. Therefore, a normal instruction requires eight clock cycles to complete. With the 10 ns clock period used in simulation, the execution time of a normal instruction is 80 ns. Control-flow instructions such as \texttt{SKZ} and \texttt{JMP} may update the Program Counter, while \texttt{HLT} stops the processor when the halt condition is reached.
 
 \begin{table}[htbp]
-\centering
-\caption{Resource, Timing, and Power Evaluation}
-\label{tab:resource_timing_power}
-\small
-\renewcommand{\arraystretch}{1.15}
-\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} p{0.23\textwidth} X@{}}
-\toprule
-\textbf{Metric} & \textbf{Evaluation} & \textbf{Description} \\
-\midrule
-Instruction width & 8 bits & Includes a 3-bit opcode and a 5-bit operand. \\
+	\centering
+	\caption{Resource, Timing, and Power Evaluation}
+	\label{tab:resource_timing_power}
+	\small
+	\renewcommand{\arraystretch}{1.15}
+	\begin{tabularx}{\textwidth}{@{}p{0.25\textwidth} p{0.25\textwidth} X@{}}
+		\toprule
+		\textbf{Metric}         & \textbf{Evaluation}              & \textbf{Description}                                                                           \\
+		\midrule
+		Instruction width       & 8 bits                           & Includes a 3-bit opcode and a 5-bit operand.                                                   \\
 
-Memory organization & \(32 \times 8\) bits & Provides 32 memory locations, each storing 8 bits of data. \\
+		Memory organization     & \(32 \times 8\) bits             & Provides 32 memory locations, each storing 8 bits of data.                                     \\
 
-Datapath width & 8 bits & Used by the ALU, Accumulator, and shared data bus. \\
+		Datapath width          & 8 bits                           & Used by the ALU, Accumulator, and shared data bus.                                             \\
 
-Address width & 5 bits & Supports addressing of 32 memory locations. \\
+		Address width           & 5 bits                           & Supports addressing of 32 memory locations.                                                    \\
 
-Controller states & 8 states & Forms one complete instruction cycle under normal execution. \\
+		Controller states       & 8 states                         & Forms one complete instruction cycle under normal execution.                                   \\
 
-Simulation clock period & 10 ns & Clock period used in the Verilog testbenches. \\
+		Simulation clock period & 10 ns                            & Clock period used in the Verilog testbenches.                                                  \\
 
-Normal instruction time & 80 ns & Calculated from eight clock cycles with a 10 ns clock period. \\
+		Normal instruction time & 80 ns                            & Calculated from eight clock cycles with a 10 ns clock period.                                  \\
 
-Sequential resources & PC, IR, AC, FSM, Memory & Store the program address, instruction, accumulator value, control state, and memory contents. \\
+		Sequential resources    & PC, IR, AC, FSM, Memory          & Store the program address, instruction, accumulator value, control state, and memory contents. \\
 
-Combinational resources & ALU, Address MUX, control logic & Perform arithmetic and logic operations, address selection, and control signal generation. \\
+		Combinational resources & ALU, Address MUX, control logic  & Perform arithmetic and logic operations, address selection, and control signal generation.     \\
 
-Power evaluation & RTL-level qualitative assessment & Expected to be low due to the small datapath, limited memory size, and simple control logic. \\
-\bottomrule
-\end{tabularx}
+		Power evaluation        & RTL-level qualitative assessment & Expected to be low due to the small datapath, limited memory size, and simple control logic.   \\
+		\bottomrule
+	\end{tabularx}
 \end{table}
 
 

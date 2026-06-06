@@ -1,12 +1,7 @@
 \documentclass[twoside, english]{hcmut-report}
 
 %%% Optional packages
-\usepackage{circuitikz}
-\usepackage{tabularx}
-\usepackage{booktabs}
-\usepackage{array}
-\ctikzset{
-}
+% \usepackage{circuitikz}
 
 %%% Configurations
 \setstretch{1.2}
@@ -50,9 +45,9 @@
 \begin{document}
 \coverpage
 
-% \renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesection}{\Roman{section}}
 % \renewcommand{\thesubsection}{\thesection.\alph{subsection}}
-\renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
+% \renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
 
 \tableofcontents
 % \listoffigures
@@ -67,7 +62,6 @@
 \input{chapters/03_implementation.tex}
 \input{chapters/04_evaluation.tex}
 \input{chapters/05_conclusion.tex}
-
 
 % \begin{noindent}
 % \begingroup
