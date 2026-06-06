@@ -72,7 +72,7 @@
 		      \item It can also be utilized to count program states.
 		      \item The counter operates synchronously on the rising edge of the \texttt{clk} signal.
 		      \item The \texttt{reset} signal is active-high, clearing the counter back to 0.
-		      \item The counter has a width of 32 bits.
+		      \item The counter has a width of 5 bits.
 		      \item It features a load function to force an arbitrary address into the counter. If not loading, the counter increments normally.
 	      \end{itemize}
 	\item \textbf{Inputs:} \texttt{clk}, \texttt{rst}, \texttt{ld\_pc}, \texttt{inc\_pc}, \texttt{data\_in}.
@@ -84,7 +84,7 @@
 	\item \textbf{Function:}
 	      \begin{itemize}
 		      \item The Address MUX selects between the instruction address (during the instruction fetch phase) and the operand address (during the instruction execution phase).
-		      \item The MUX has a default data width of 32 bits.
+		      \item The MUX has a default data width of 5 bits.
 		      \item The width is parameterized to allow for easy modification if necessary.
 	      \end{itemize}
 	\item \textbf{Inputs:} \texttt{pc\_addr}, \texttt{ir\_addr}, \texttt{sel}.
@@ -96,8 +96,8 @@
 	\item \textbf{Function:}
 	      \begin{itemize}
 		      \item The ALU executes arithmetic and logical operations. The specific operation performed depends on the instruction's opcode.
-		      \item The ALU executes 8 distinct operations on 32-bit operands (\texttt{inA} and \texttt{inB}).
-		      \item It produces a 32-bit output and a 1-bit asynchronous \texttt{zero} flag.
+		      \item The ALU executes 8 distinct operations on 8-bit operands (\texttt{inA} and \texttt{inB}).
+		      \item It produces a 8-bit output and a 1-bit asynchronous \texttt{zero} flag.
 		      \item The \texttt{zero} flag indicates whether the input \texttt{inA} is equal to 0.
 	      \end{itemize}
 	\item \textbf{Inputs:} \texttt{inA}, \texttt{inB}, \texttt{opcode}.
@@ -163,7 +163,7 @@
 	      \begin{itemize}
 		      \item The memory module stores both instructions and data.
 		      \item It is designed to separate read and write functions while utilizing a single bidirectional data port. Reading and writing cannot occur simultaneously.
-		      \item Configured for 32-bit addresses and 32-bit data.
+		      \item Configured for 5-bit addresses and 32-bit data.
 		      \item Uses 1-bit control signals to enable reading (\texttt{rd}) and writing (\texttt{wr}).
 		      \item Memory operations are synchronized to the rising edge of the \texttt{clk} signal.
 	      \end{itemize}

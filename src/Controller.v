@@ -38,17 +38,14 @@ module controller (
   reg halted;
 
   wire aluop;
-  assign aluop = (opcode == ADD) ||
-                 (opcode == AND) ||
-                 (opcode == XOR) ||
-                 (opcode == LDA);
+  assign aluop = (opcode == ADD) || (opcode == AND) || (opcode == XOR) || (opcode == LDA);
 
   // State register
   always @(posedge clk) begin
     if (rst) begin
-      state <= INST_ADDR;
+      state  <= INST_ADDR;
       halted <= 1'b0;
-  end else if (halted) begin
+    end else if (halted) begin
       state  <= state;
       halted <= 1'b1;
     end else begin

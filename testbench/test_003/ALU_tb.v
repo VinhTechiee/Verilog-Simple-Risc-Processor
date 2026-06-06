@@ -22,19 +22,19 @@ module ALU_tb;
 
   // DUT
   ALU uut (
-      .inA(inA),
-      .inB(inB),
-      .opcode(opcode),
+      .inA    (inA),
+      .inB    (inB),
+      .opcode (opcode),
       .alu_out(alu_out),
-      .zero(zero)
+      .zero   (zero)
   );
-  
+
   task display_state;
     input [8*6:1] tc_name;
     begin
       #1;
-      $display("%s | opcode=%b | inA=%0d | inB=%0d | zero=%b | alu_out=%0d",
-               tc_name, opcode, inA, inB, zero, alu_out);
+      $display("%s | opcode=%b | inA=%0d | inB=%0d | zero=%b | alu_out=%0d", tc_name, opcode, inA,
+               inB, zero, alu_out);
     end
   endtask
 
@@ -50,10 +50,10 @@ module ALU_tb;
     $display("\n--- TC1: Zero Status Flag ---");
 
     inA = 8'd0;
-    display_state("TC1.1");   // zero = 1
+    display_state("TC1.1");  // zero = 1
 
     inA = 8'd50;
-    display_state("TC1.2");   // zero = 0
+    display_state("TC1.2");  // zero = 0
 
     // TC2: Arithmetic & Logic Operations
     $display("\n--- TC2: Arithmetic & Logic ---");
@@ -63,21 +63,21 @@ module ALU_tb;
 
     // ADD
     opcode = 3'b010;
-    display_state("ADD");     // 125
+    display_state("ADD");  // 125
 
     // AND
     opcode = 3'b011;
-    display_state("AND");     // 0
+    display_state("AND");  // 0
 
     // XOR
     opcode = 3'b100;
-    display_state("XOR");     // 125
+    display_state("XOR");  // 125
 
     // LDA
     opcode = 3'b101;
-    display_state("LDA");     // 25
+    display_state("LDA");  // 25
 
-    
+
     // TC3: Transfer Instructions
     $display("\n--- TC3: HLT / SKZ / STO / JMP ---");
 
@@ -86,25 +86,25 @@ module ALU_tb;
 
     // HLT
     opcode = 3'b000;
-    display_state("HLT");     // 200
+    display_state("HLT");  // 200
 
     // SKZ
     opcode = 3'b001;
-    display_state("SKZ");     // 200
+    display_state("SKZ");  // 200
 
     // STO
     opcode = 3'b110;
-    display_state("STO");     // 200
+    display_state("STO");  // 200
 
     // JMP
     opcode = 3'b111;
-    display_state("JMP");     // 200
+    display_state("JMP");  // 200
 
-    
+
     // TC4: Combinational Property
     $display("\n--- TC4: Combinational Property ---");
 
-    opcode = 3'b010; // ADD
+    opcode = 3'b010;  // ADD
 
     inA = 8'd10;
     inB = 8'd20;
@@ -122,33 +122,33 @@ module ALU_tb;
     // TC5: Boundary Cases
     $display("\n--- TC5: Boundary Cases ---");
 
-    opcode = 3'b010; // ADD
+    opcode = 3'b010;  // ADD
 
     inA = 8'hFF;
     inB = 8'h01;
-    display_state("OVF1");    // Expect 0
+    display_state("OVF1");  // Expect 0
 
     inA = 8'h7F;
     inB = 8'h7F;
-    display_state("OVF2");    // Expect 254
+    display_state("OVF2");  // Expect 254
 
     // TC6: Complex Bitwise Logic
     $display("\n--- TC6: Complex Bitwise Logic ---");
 
-    inA = 8'hAA; // 10101010
-    inB = 8'h55; // 01010101
+    inA = 8'hAA;  // 10101010
+    inB = 8'h55;  // 01010101
 
     opcode = 3'b011;
-    display_state("AND_C");   // 0
+    display_state("AND_C");  // 0
 
     opcode = 3'b100;
-    display_state("XOR_C");   // 255
+    display_state("XOR_C");  // 255
 
-    
+
     // TC7: Zero Flag Independence
     $display("\n--- TC7: Zero Flag Independence ---");
 
-    opcode = 3'b101; // LDA
+    opcode = 3'b101;  // LDA
 
     inA = 8'd0;
     inB = 8'd100;
@@ -159,7 +159,7 @@ module ALU_tb;
     inB = 8'd100;
     #1;
     $display("TC7.2 | zero=%b | alu_out=%0d", zero, alu_out);
-    
+
     $display("\n--- ALL TESTS FINISHED ---");
     $finish;
 

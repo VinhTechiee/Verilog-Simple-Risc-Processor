@@ -43,8 +43,8 @@ module AM_tb;
     input [8*5:1] tc_name;
     begin
       #1;
-      $display("%s | sel=%b | pc_addr=%0d | ir_addr=%0d | addr_out=%0d",
-               tc_name, sel, pc_addr, ir_addr, addr_out);
+      $display("%s | sel=%b | pc_addr=%0d | ir_addr=%0d | addr_out=%0d", tc_name, sel, pc_addr,
+               ir_addr, addr_out);
     end
   endtask
 
@@ -77,12 +77,12 @@ module AM_tb;
     $display("--- TC4: Parameter Override (WIDTH=16) ---");
     sel = 1;
     #1;
-    $display("TC4.1 | sel=%b | pc_addr_16=%0d | ir_addr_16=%0d | addr_out_16=%0d",
-             sel, pc_addr_16, ir_addr_16, addr_out_16);
+    $display("TC4.1 | sel=%b | pc_addr_16=%0d | ir_addr_16=%0d | addr_out_16=%0d", sel, pc_addr_16,
+             ir_addr_16, addr_out_16);
     sel = 0;
     #1;
-    $display("TC4.2 | sel=%b | pc_addr_16=%0d | ir_addr_16=%0d | addr_out_16=%0d",
-             sel, pc_addr_16, ir_addr_16, addr_out_16);
+    $display("TC4.2 | sel=%b | pc_addr_16=%0d | ir_addr_16=%0d | addr_out_16=%0d", sel, pc_addr_16,
+             ir_addr_16, addr_out_16);
 
     $display("--- TC5: Stability Check ---");
     sel = 1;

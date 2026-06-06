@@ -84,8 +84,8 @@ time=              835000 | PC=12 | State=001 | Op=001 | AC=0 | Halt=0
 time=              845000 | PC=12 | State=010 | Op=001 | AC=0 | Halt=0
 time=              855000 | PC=12 | State=011 | Op=000 | AC=0 | Halt=0
 time=              865000 | PC=12 | State=100 | Op=000 | AC=0 | Halt=1
-time=              875000 | PC=13 | State=100 | Op=000 | AC=0 | Halt=0
 --- FINAL RESULT CHECK ---
 Mem[22] (Expected 8): 8
 Mem[23] (Expected 1): 1
 --- TEST STATUS: PASS ---
+time=              875000 | PC=13 | State=100 | Op=000 | AC=0 | Halt=1

@@ -1,8 +1,8 @@
 module PC (
-    input             clk,
-    input             rst,
-    input             ld_pc,
-    input             inc_pc,
+    input            clk,
+    input            rst,
+    input            ld_pc,
+    input            inc_pc,
     input      [4:0] data_in,
     output reg [4:0] pc_out
 );

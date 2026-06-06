@@ -16,11 +16,11 @@
 // ============================================================
 module PC_tb;
 
-  reg       clk;
-  reg       rst;
-  reg       ld_pc;
-  reg       inc_pc;
-  reg [4:0] data_in;
+  reg        clk;
+  reg        rst;
+  reg        ld_pc;
+  reg        inc_pc;
+  reg  [4:0] data_in;
   wire [4:0] pc_out;
 
   PC uut (
@@ -40,8 +40,8 @@ module PC_tb;
     begin
       @(posedge clk);
       #1;
-      $display("cycle=%0d | rst=%b | ld_pc=%b | inc_pc=%b | data_in=%0d | pc_out=%0d",
-               cycle, rst, ld_pc, inc_pc, data_in, pc_out);
+      $display("cycle=%0d | rst=%b | ld_pc=%b | inc_pc=%b | data_in=%0d | pc_out=%0d", cycle, rst,
+               ld_pc, inc_pc, data_in, pc_out);
     end
   endtask
 
@@ -82,42 +82,42 @@ module PC_tb;
     inc_pc = 0;
 
     $display("--- TC5: Hold State ---");
-    tick(10); // hold 26
-    tick(11); // hold 26
+    tick(10);  // hold 26
+    tick(11);  // hold 26
 
     $display("--- TC6: 5-bit Wrap-around ---");
     data_in = 5'd31;
     ld_pc   = 1;
-    tick(12); // pc_out = 31
+    tick(12);  // pc_out = 31
     ld_pc  = 0;
     inc_pc = 1;
-    tick(13); // pc_out wraps to 0
+    tick(13);  // pc_out wraps to 0
     inc_pc = 0;
 
     $display("--- TC7: Jump & Increment ---");
     data_in = 5'd10;
     ld_pc   = 1;
-    tick(14); // pc_out = 10
+    tick(14);  // pc_out = 10
     ld_pc  = 0;
     inc_pc = 1;
-    tick(15); // 11
-    tick(16); // 12
+    tick(15);  // 11
+    tick(16);  // 12
     inc_pc = 0;
 
     $display("--- TC8: Reset from Non-Zero Value ---");
     data_in = 5'd30;
     ld_pc   = 1;
-    tick(17); // pc_out = 30
+    tick(17);  // pc_out = 30
     ld_pc = 0;
     rst   = 1;
-    tick(18); // pc_out = 0
+    tick(18);  // pc_out = 0
     rst = 0;
 
     $display("--- TC9: Data Noise Immunity ---");
     inc_pc = 1;
-    tick(19); // pc_out = 1
+    tick(19);  // pc_out = 1
     data_in = 5'd31;
-    tick(20); // pc_out = 2, not affected by data_in
+    tick(20);  // pc_out = 2, not affected by data_in
     inc_pc = 0;
 
     $display("--- DONE ---");

@@ -1,20 +1,16 @@
-\section{Conclusion}\label{sec:conclusion} % (fold)
-
-% section Conclusion (end)
-\section{Conclusion and Future Work}
-
+\section{Conclusion and Future Work}\label{sec:conclusion} % (fold)
+\subsection{Conclusion}
 In this assignment, our group designed and implemented a simple RISC processor using Verilog HDL. The processor follows an accumulator-based architecture and uses an 8-bit instruction format, consisting of a 3-bit opcode and a 5-bit operand field. Based on this format, the CPU supports eight instructions: HLT, SKZ, ADD, AND, XOR, LDA, STO, and JMP. The design also includes a 5-bit program counter and a 32-location memory space, which are consistent with the project specification.
 
 The processor was developed using a modular design approach. Core components, including the Program Counter, Address Multiplexer, Memory, Instruction Register, Accumulator Register, ALU, and Controller, were implemented as independent Verilog modules and then integrated into the top-level CPU module. This organization made the datapath and control path clearer, while also making simulation, debugging, and system integration more manageable.
 
-A key part of the design was the Controller, which was implemented as a finite state machine with eight states: INST\_ADDR, INST\_FETCH, INST\_LOAD, IDLE, OP\_ADDR, OP\_FETCH, ALU\_OP, and STORE. These states coordinate the main phases of instruction execution, including instruction fetch, decoding, operand access, ALU operation, accumulator update, memory write-back, program counter update, and halt control. Through simulation, the processor was verified to execute the supported instructions correctly at both module and system levels.
+Key part of the design was the Controller, which was implemented as a finite state machine with eight states: \texttt{INST\_ADDR, INST\_FETCH, INST\_LOAD, IDLE, OP\_ADDR, OP\_FETCH, ALU\_OP}, and \texttt{STORE}. These states coordinate the main phases of instruction execution, including instruction fetch, decoding, operand access, ALU operation, accumulator update, memory write-back, program counter update, and halt control. Through simulation, the processor was verified to execute the supported instructions correctly at both module and system levels.
 
 The main strength of the design is its clear separation between datapath components and control logic. Since each module was tested independently before being connected in the complete CPU, functional errors were easier to identify and correct. In addition, the use of both module-level and CPU-level testbenches helped confirm the correctness of individual blocks as well as the overall instruction execution flow.
 
 However, the current processor still has several limitations. The instruction set is relatively small and does not support more complex arithmetic or comparison operations. The 5-bit address bus also limits the memory space to only 32 locations, which restricts the size of executable programs. Moreover, the controller follows a fixed multi-state execution sequence, meaning that some simple instructions may require more clock cycles than necessary. The project also focuses mainly on functional simulation, while synthesis results, timing delay, resource utilization, and power consumption have not yet been analyzed in detail.
 
 \subsection{Future Plan}
-
 Based on these limitations, several improvements can be considered for future development. First, the instruction set can be extended to improve the flexibility of the processor. Additional instructions such as SUB, MUL, DIV, shift operations, and comparison instructions would allow the CPU to support more diverse computational tasks. For example, comparison and shift instructions would make the processor more capable of handling conditional operations and bit-level data manipulation.
 
 Second, the memory system can be expanded by increasing the address width. Since the current 5-bit address bus only supports 32 memory locations, a wider address bus would allow the processor to access a larger program and data memory space. This improvement would make it possible to execute longer instruction sequences and store more intermediate data during program execution.
@@ -26,26 +22,23 @@ Fourth, verification should be extended with more comprehensive test programs. A
 Finally, synthesis and implementation analysis should be performed to evaluate the hardware cost of the design. Resource utilization, critical path delay, maximum operating frequency, and power consumption should be analyzed after synthesis. This would provide a more complete understanding of the processor not only as a functional Verilog model, but also as a hardware design that could be implemented on an FPGA or similar digital platform.
 
 Overall, this assignment helped us understand the fundamental principles of processor design, especially the interaction between datapath modules and control logic. It also provided practical experience in using Verilog HDL, designing a finite state machine controller, integrating multiple hardware modules, and verifying a digital system through simulation.
+% section Conclusion (end)
 
 \section{Member Contribution}
 \begin{table}[H]
-\centering
-\caption{Member Contribution}
-\begin{tabular}{|c|l|c|p{7cm}|}
-\hline
-\textbf{No.} & \textbf{Member} & \textbf{Student ID} & \textbf{Contribution} \\
-\hline
-1 & Trần Vinh Quang & 2550342 
-& Implemented the Controller module, including the finite state machine and control signal generation. Contributed to the project report. \\
-\hline
-2 & Lê Hiển Vinh & 2453422 
-& Implemented the Program Counter and top-level CPU modules. Developed the testbenches and expected output files, and performed simulation verification for the system. \\
-\hline
-3 & Nguyễn Đức Thiên Tân & 2550345 
-& Implemented the Memory and Instruction Register modules, including memory access logic and instruction decoding. Contributed to the project report. \\
-\hline
-4 & Đặng Ngọc Lan Anh & 2550258 
-& Implemented the ALU and Accumulator modules, including arithmetic, logic, zero-flag, and register operations. Contributed to the project report. \\
-\hline
-\end{tabular}
+	\centering
+	\caption{Member Contribution}
+	\begin{tabular}{|c|l|c|p{7.5cm}|}
+		\hline
+		\textbf{No.} & \textbf{Member}      & \textbf{Student ID} & \textbf{Contribution}                                                                                                                                                 \\
+		\hline
+		1            & Trần Vinh Quang      & 2550342             & Implemented the Controller module, including the finite state machine and control signal generation. \newline Contributed to the project report.                      \\
+		\hline
+		2            & Lê Hiển Vinh         & 2453422             & Implemented the Program Counter and top-level CPU modules. Developed the testbenches and expected output files, and performed simulation verification for the system. \\
+		\hline
+		3            & Nguyễn Đức Thiên Tân & 2550345             & Implemented the Memory and Instruction Register modules, including memory access logic and instruction decoding. \newline Contributed to the project report.          \\
+		\hline
+		4            & Đặng Ngọc Lan Anh    & 2550258             & Implemented the ALU and Accumulator modules, including arithmetic, logic, zero flag, and register operations. \newline Contributed to the project report.             \\
+		\hline
+	\end{tabular}
 \end{table}

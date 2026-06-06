@@ -29,8 +29,8 @@ module CPU_tb;
   // ── Task: display CPU state ──────────────────────────
   task display_cpu_state;
     begin
-      $display("time=%t | PC=%2d | State=%3b | Op=%3b | AC=%0d | Halt=%b", $time,
-               uut.u_pc.pc_out, uut.u_controller.state, uut.opcode, uut.u_ac.ac_out, halt);
+      $display("time=%t | PC=%2d | State=%3b | Op=%3b | AC=%0d | Halt=%b", $time, uut.u_pc.pc_out,
+               uut.u_controller.state, uut.opcode, uut.u_ac.ac_out, halt);
     end
   endtask
 
