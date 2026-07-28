@@ -1,0 +1,37 @@
+name: Verilog Tests
+
+on:
+  push:
+    branches:
+      - main
+      - "develop/**"
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  simulation:
+    name: Icarus Verilog Simulation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Icarus Verilog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+
+      - name: Show tool versions
+        run: |
+          python3 --version
+          iverilog -V
+
+      - name: Run all tests
+        run: |
+          python3 run_tests.py \
+            --src src \
+            --testbench testbench \
+            --sim icarus
