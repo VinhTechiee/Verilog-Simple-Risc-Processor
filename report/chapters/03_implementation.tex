@@ -1,0 +1,136 @@
+\section{Implementation}\label{sec:implementation} % (fold)
+\subsection{Implementation Strategy}
+The implementation follows a bottom-to-up design flow consistent with industrial RTL practice. The process went through 4 phases: specification review, RTL coding for each individual module, functional simulation, and unit testing for debugging to ensure any failures happened only in the current development module and that the hardware matched the intended behavior.
+
+Throughout the implementation, the following coding style guidelines were enforced for readable, synthesizable, and maintainable Verilog source code: maintaining consistent indentation, naming conventions (\texttt{lower\_case} variable casing), and comprehensive comments throughout the code.
+
+\subsection{Program Counter (PC)}
+\textbf{Implementation Logic \& Steps:}
+\begin{itemize}
+	\item Implemented a sequential logic block triggered by the positive edge of the clock.
+	\item Implemented a synchronous active-high reset to clear the program counter.
+	\item Implemented logic to load a new address into the program counter when \texttt{ld\_pc} is active.
+	\item Implemented logic to increment the program counter when \texttt{inc\_pc} is active.
+\end{itemize}
+
+\textbf{Source Code:}
+\inputsrccode{PC.v}
+
+\textbf{RTL Schematic:}
+\inputschematic[0.95]{PC}
+
+\subsection{Address Multiplexer (Address MUX)}
+\textbf{Implementation Logic \& Steps:}
+\begin{itemize}
+	\item Implemented combinational logic to select between \texttt{pc\_addr} and \texttt{ir\_addr} based on the \texttt{sel} signal.
+	\item Routed \texttt{pc\_addr} to the output when \texttt{sel} is 1, and \texttt{ir\_addr} when \texttt{sel} is 0.
+\end{itemize}
+
+\textbf{Source Code:}
+\inputsrccode{ADD_MUX.v}
+
+\textbf{RTL Schematic:}
+\inputschematic[0.95]{AM}
+
+\subsection{Arithmetic Logic Unit (ALU)}
+\textbf{Implementation Logic \& Steps:}
+\begin{itemize}
+	\item Implemented combinational logic to set the zero flag if \texttt{inA} is 0.
+	\item Implemented combinational logic to perform arithmetic and logic operations based on the opcode.
+	\item Defined operations for HLT, SKZ, ADD, AND, XOR, LDA, STO, and JMP instructions.
+	\item Assigned the combinational result to \texttt{alu\_out}.
+\end{itemize}
+
+\textbf{Source Code:}
+\inputsrccode{ALU.v}
+
+\textbf{RTL Schematic:}
+\inputschematic[0.95]{ALU}
+
+\subsection{Controller Unit}
+\textbf{Implementation Logic \& Steps:}
+\begin{itemize}
+	\item Defined state parameters for the 8-state FSM.
+	\item Defined opcode parameters for the 8 instructions.
+	\item Declared a state register.
+	\item Implemented a sequential logic block for FSM state transitions (triggered by positive clock edges).
+	\item Implemented a synchronous active-high reset to set the initial state.
+	\item Implemented combinational logic to determine output control signals based on the current state and opcode.
+	\item Ensured all output signals were assigned a default value to prevent unwanted latches.
+\end{itemize}
+
+\textbf{Source Code:}
+\inputsrccode{Controller.v}
+
+\textbf{RTL Schematic:}
+\inputschematic[0.95]{Controller}
+
+\subsection{Instruction Register (IR)}
+\textbf{Implementation Logic \& Steps:}
+\begin{itemize}
+	\item Declared an internal register to store the instruction data.
+	\item Implemented a sequential logic block triggered by the positive edge of the clock.
+	\item Implemented a synchronous active-high reset to clear the register.
+	\item Implemented logic to load \texttt{data\_in} into the register when \texttt{ld\_ir} is active.
+	\item Implemented combinational logic to extract the 3-bit opcode from the stored instruction.
+	\item Implemented combinational logic to extract the 5-bit operand from the stored instruction.
+\end{itemize}
+
+\textbf{Source Code:}
+\inputsrccode{IR.v}
+
+\textbf{RTL Schematic:}
+\inputschematic[0.95]{IR}
+
+\subsection{Accumulator Register (AC)}
+\textbf{Implementation Logic \& Steps:}
+\begin{itemize}
+	\item Implemented a sequential logic block triggered by the positive edge of the clock.
+	\item Implemented a synchronous active-high reset to clear the accumulator.
+	\item Implemented logic to load new data into the accumulator when the load signal is active.
+\end{itemize}
+
+\textbf{Source Code:}
+\inputsrccode{AC.v}
+
+\textbf{RTL Schematic:}
+\inputschematic[0.95]{AC}
+
+\subsection{Memory}
+\textbf{Implementation Logic \& Steps:}
+\begin{itemize}
+	\item Declared a 2D array of registers to represent memory cells (32 cells of 8 bits).
+	\item Declared a register to hold the output data.
+	\item Implemented a sequential logic block triggered by the positive edge of the clock for writing data.
+	\item Ensured writing only occurs when \texttt{wr} is active and \texttt{rd} is inactive.
+	\item Implemented a sequential logic block triggered by the positive edge of the clock for reading data.
+	\item Ensured reading only occurs when \texttt{rd} is active and \texttt{wr} is inactive.
+	\item Implemented tri-state buffer logic for the bidirectional data bus.
+\end{itemize}
+
+\textbf{Source Code:}
+\inputsrccode{Memory.v}
+
+\textbf{RTL Schematic:}
+\inputschematic[0.95]{Memory}
+
+\subsection{Top-level Integration}
+\textbf{Implementation Logic \& Steps:}
+\begin{itemize}
+	\item Declared internal wires for connecting all the CPU submodules.
+	\item Instantiated the Program Counter (PC) module and connected its ports.
+	\item Instantiated the Address Multiplexer (MUX) module and connected its ports.
+	\item Instantiated the ALU module and connected its ports.
+	\item Instantiated the Controller module and connected its ports.
+	\item Instantiated the Instruction Register (IR) module and connected its ports.
+	\item Instantiated the Accumulator (AC) module and connected its ports.
+	\item Instantiated the Memory module and connected its ports.
+	\item Implemented tri-state buffer logic for the data bus to handle writing from the Accumulator to Memory.
+\end{itemize}
+
+\textbf{Source Code:}
+\inputsrccode{CPU.v}
+
+\textbf{RTL Schematic:}
+\inputschematic[0.95]{CPU}
+% section implementation (end)

@@ -2,7 +2,6 @@
 
 // ============================================================
 // CPU_tb.v — Top-Level Testbench for Integration (CPU)
-// Covers execution of a basic test program from the README:
 //   - LDA 20
 //   - ADD 21
 //   - STO 22
@@ -36,14 +35,14 @@ module CPU_tb;
 
   // ── Load Program & Control Simulation ────────────────
   initial begin
-    // 1. Load specific test program from README
+    // 1. Load specific test program
     // LDA 20, ADD 21, STO 22, HLT
     uut.u_memory.mem_cells[0] = 8'hB4;  // LDA 20 (Opcode 101, Operand 10100)
     uut.u_memory.mem_cells[1] = 8'h55;  // ADD 21 (Opcode 010, Operand 10101)
     uut.u_memory.mem_cells[2] = 8'hD6;  // STO 22 (Opcode 110, Operand 10110)
     uut.u_memory.mem_cells[3] = 8'h00;  // HLT    (Opcode 000, Operand 00000)
 
-    // 2. Load input data according to README
+    // 2. Load input data 
     uut.u_memory.mem_cells[20] = 8'd5;
     uut.u_memory.mem_cells[21] = 8'd3;
     uut.u_memory.mem_cells[22] = 8'd0;  // Location to store result

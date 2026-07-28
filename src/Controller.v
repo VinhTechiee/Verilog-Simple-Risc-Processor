@@ -1,18 +1,17 @@
 module controller (
-    input clk,
-    input rst,
-    input [2:0] opcode,
-    input zero,
-
-    output reg sel,
-    output reg rd,
-    output reg ld_ir,
-    output reg halt,
-    output reg inc_pc,
-    output reg ld_ac,
-    output reg ld_pc,
-    output reg wr,
-    output reg data_e
+    input            clk,
+    input            rst,
+    input      [2:0] opcode,
+    input            zero,
+    output reg       sel,
+    output reg       rd,
+    output reg       ld_ir,
+    output reg       halt,
+    output reg       inc_pc,
+    output reg       ld_ac,
+    output reg       ld_pc,
+    output reg       wr,
+    output reg       data_e
 
 );
   localparam  INST_ADDR=3'd0,
